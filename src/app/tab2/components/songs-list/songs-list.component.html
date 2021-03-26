@@ -1,5 +1,5 @@
-<ion-searchbar [(ngModel)]="search" debounce="200" showCancelButton="focus"
-               (keyup)="isSearching=true; getSearch(); stopSearchingIfEmptyField()"
+<ion-searchbar [(ngModel)]="this.search" name="search" debounce="500" showCancelButton="focus"
+               (ionChange)="this.isSearching=true; getSearch(); stopSearchingIfEmptyField()"
                placeholder="Search" animated>
 </ion-searchbar>
 
