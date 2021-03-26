@@ -7,6 +7,7 @@ import { Tab4Page } from './tab4.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab4PageRoutingModule } from './tab4-routing.module';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   imports: [
@@ -17,6 +18,6 @@ import { Tab4PageRoutingModule } from './tab4-routing.module';
     RouterModule.forChild([{ path: '', component: Tab4Page }]),
     Tab4PageRoutingModule,
   ],
-  declarations: [Tab4Page]
+  declarations: [Tab4Page, ProfileComponent],
 })
 export class Tab4PageModule {}
