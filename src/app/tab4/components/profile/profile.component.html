@@ -1,3 +1,11 @@
-<p>
-  profile works!
-</p>
+<ion-content fullscreen *ngIf="this.user">
+  <ion-card class="profile-card-height">
+    <img src="../../../../assets/beautiful.jpg" />
+    <ion-card-header>
+      <ion-card-subtitle>{{user._mail}}</ion-card-subtitle>
+      <ion-card-title>{{user._user_name}}</ion-card-title>
+    </ion-card-header>
+    
+  </ion-card>
+  <ion-button expand="full" >Logout</ion-button>
+</ion-content>
