@@ -30,8 +30,8 @@ export class PlaylistsService {
       throw new Error(error);
     })
 
-  addToPlaylist = (id: string, playlistId: string, song: any): Promise<void> =>
-    this.http.put<void>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}/songs`, song).toPromise()
+  addToPlaylist = (id: string, playlistId: string, songId: { songId: string }): Promise<void> =>
+    this.http.put<void>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}/songs`, songId).toPromise()
       .catch(({error: {error}}) => {
       throw new Error(error);
     })

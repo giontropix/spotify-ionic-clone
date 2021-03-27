@@ -1,7 +1,9 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {SongsService} from '../../../services/songs.service';
 import {Song} from '../../../models/Song';
-import {IonInfiniteScroll, ToastController} from '@ionic/angular';
+import {ActionSheetController, IonInfiniteScroll, ToastController} from '@ionic/angular';
+import {PlaylistsService} from '../../../services/playlists.service';
+import {Playlist} from '../../../models/Playlist';
 
 @Component({
   selector: 'app-songs-list',
@@ -12,7 +14,10 @@ export class SongsListComponent implements OnInit {
 
   constructor(
     public songsService: SongsService,
-    public toastController: ToastController) {
+    public toastController: ToastController,
+    public actionSheetController: ActionSheetController,
+    public playlistsService: PlaylistsService
+  ) {
   }
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
@@ -28,6 +33,36 @@ export class SongsListComponent implements OnInit {
   currentArtist = '';
   songUrl = '';
   isListening = false;
+  userPlaylists: { title: string, id: string }[];
+
+  addToPlaylists = async (song: Song) => {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Add to Playlists',
+      cssClass: 'my-custom-class',
+      buttons: [...this.userPlaylists.map(({title, id}) => ({
+          text: title,
+          icon: 'musical-notes-outline',
+          handler: async () => {
+            try {
+              await this.playlistsService.addToPlaylist(/*this.user._id*/'U1613583743602', id, {songId: song._id});
+            } catch (error: any) {
+              return this.presentToast(error, 3000);
+            }
+            return this.presentToast(`${song._title} added to ${title} playlist`);
+          }
+        })
+      ), {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
 
   loadDataForInfiniteScroll = (event) => {
     if (!this.isSearching) {
@@ -55,13 +90,15 @@ export class SongsListComponent implements OnInit {
     }
   }
 
-  async presentToast(message: string) {
+  async presentToast(message: string, duration = 2000) {
     const toast = await this.toastController.create({
       message,
-      duration: 2000
+      duration,
     });
     await toast.present();
   }
+
+  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all('U1613583743602');
 
   getAllSongs = async () => this.allSongs = await this.songsService.all();
 
@@ -74,13 +111,10 @@ export class SongsListComponent implements OnInit {
     String(this.songsLimit))
 
   stopSearchingIfEmptyField = async () => {
-
     if (this.search === '') {
-      console.log("empty")
       this.isSearching = false;
       await this.getSongs();
-    }console.log(this.songs);
-    console.log(this.search)
+    }
   }
 
   startPlaying = (uri: string, title: string, artist: string) => {
@@ -96,5 +130,6 @@ export class SongsListComponent implements OnInit {
   async ngOnInit() {
     await this.getAllSongs();
     await this.getSongs();
+    await this.getUserPlaylists();
   }
 }

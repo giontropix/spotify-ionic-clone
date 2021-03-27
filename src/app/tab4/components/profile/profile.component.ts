@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   user: User;
 
   getUser = async () =>
-    (this.user = await this.usersService.get(/*this.route.snapshot.params.id*/"U1613583743602"));
+    (this.user = await this.usersService.get(/*this.route.snapshot.params.id*/'U1613583743602'));
 
   logout = async () => {
     const accessToken = localStorage.getItem('access_token');
