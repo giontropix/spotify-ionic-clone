@@ -12,11 +12,13 @@
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input type="text" formControlName="mail" required></ion-input>
+      <ion-label position="floating" *ngIf="group.controls['mail'].invalid">{{getMailErrorMessage()}}</ion-label>
     </ion-item>
-
+    
     <ion-item lines="full">
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" formControlName="password" required></ion-input>
+      <ion-label *ngIf="group.controls['password'].invalid" position="floating">{{getPasswordErrorMessage()}}</ion-label>
     </ion-item>
 
     <ion-row>
