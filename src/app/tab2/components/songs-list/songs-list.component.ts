@@ -3,6 +3,7 @@ import {SongsService} from '../../../services/songs.service';
 import {Song} from '../../../models/Song';
 import {ActionSheetController, IonInfiniteScroll, ToastController} from '@ionic/angular';
 import {PlaylistsService} from '../../../services/playlists.service';
+import {UserPlaylist} from '../../../models/UserPlaylist';
 
 @Component({
   selector: 'app-songs-list',
@@ -32,7 +33,7 @@ export class SongsListComponent implements OnInit {
   currentArtist = '';
   songUrl = '';
   isListening = false;
-  userPlaylists: { title: string, id: string }[];
+  userPlaylists: UserPlaylist[];
 
   addToPlaylists = async (song: Song) => {
     const actionSheet = await this.actionSheetController.create({

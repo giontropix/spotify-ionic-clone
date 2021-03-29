@@ -1,0 +1,5 @@
+<ion-list *ngIf="this.userPlaylists">
+  <ion-item *ngFor="let playlist of this.userPlaylists">
+    <ion-label (click)="this.showPlaylist(playlist.id, playlist.title)">{{playlist.title}}</ion-label>
+  </ion-item>
+</ion-list>

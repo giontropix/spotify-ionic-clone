@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Playlist } from '../models/Playlist';
+import {Song} from '../models/Song';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +16,11 @@ export class PlaylistsService {
   all = (id: string, offset: string = '', limit: string = ''): Promise<any[]> =>
     this.http.get<any[]>(`${this.API_BASE_URL}/${id}/playlists?offset=${offset}&limit=${limit}`).toPromise()
 
-  get = (id: string, listId: string): Promise<Playlist> =>
-    this.http.get<Playlist>(`${this.API_BASE_URL}/${id}/playlists/${listId}`).toPromise()
+  get = (id: string, playlistId: string): Promise<Playlist> =>
+    this.http.get<Playlist>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}`).toPromise()
+
+  getPlaylistSong = (id: string, playlistId: string): Promise<Song[]> =>
+    this.http.get<Song[]>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}/songs`).toPromise()
 
   create = (id: string, title: any): Promise<void> =>
     this.http.post<void>(`${this.API_BASE_URL}/${id}/playlists`, title).toPromise()

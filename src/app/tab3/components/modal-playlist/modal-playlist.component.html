@@ -1,0 +1,27 @@
+<div class="ion-page">
+  <ion-header translucent>
+    <ion-toolbar>
+      <ion-title>{{this.playlistTitle}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="this.dismiss()">Close</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-row class="ion-justify-content-center" *ngIf="isListening">
+    <ion-button (click)="this.isListening=false" color="danger"> Stop</ion-button>
+    <audio controls autoplay>
+      <source src="{{songUrl}}" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </ion-row>
+  <ion-content fullscreen="true">
+    <ion-list *ngIf="this.userPlaylistSongs">
+      <ion-item *ngFor="let song of this.userPlaylistSongs">
+        <ion-label>{{song._title}}</ion-label>
+        <ion-button (click)="startPlaying(song._src, song._title, song._artist)" color="primary"> Play</ion-button>
+        <ion-button (click)="deleteSong(song._id, song._title)" color="danger">Remove</ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</div>
