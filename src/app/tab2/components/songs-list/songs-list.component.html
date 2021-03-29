@@ -3,18 +3,10 @@
                placeholder="Search" animated>
 </ion-searchbar>
 
-<ion-row class="ion-justify-content-center" *ngIf="isListening">
-  <ion-button (click)="this.isListening=false" color="danger"> Stop </ion-button>
-  <audio controls autoplay >
-    <source src="{{songUrl}}" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
-</ion-row>
-
 <div *ngIf="songs">
   <ion-list>
     <ion-item-sliding *ngFor="let song of songs">
-    <ion-item (click)="startPlaying(song._src, song._title, song._artist)">
+    <ion-item (click)="startPlaying(song)">
       <ion-label>
         <h2>{{song._title}} </h2>
         <h5>{{song._genre}}</h5>

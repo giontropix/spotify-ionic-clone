@@ -29,10 +29,6 @@ export class SongsListComponent implements OnInit {
   isSearching = false;
   songsOffset = 0;
   songsLimit = 9;
-  currentSong = '';
-  currentArtist = '';
-  songUrl = '';
-  isListening = false;
   userPlaylists: UserPlaylist[];
 
   addToPlaylists = async (song: Song) => {
@@ -117,14 +113,12 @@ export class SongsListComponent implements OnInit {
     }
   }
 
-  startPlaying = (uri: string, title: string, artist: string) => {
-    if (this.isListening) {
+  startPlaying = (song: Song) => {
+    if (this.songsService.isListening) {
       return this.presentToast('Please stop the current song before change music!');
     }
-    this.songUrl = uri;
-    this.currentSong = title;
-    this.currentArtist = artist;
-    this.isListening = true;
+    this.songsService.songToPlay = song;
+    this.songsService.isListening = true;
   }
 
   async ngOnInit() {

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {Song} from '../../../models/Song';
 import {ModalController, ToastController} from '@ionic/angular';
+import {SongsService} from '../../../services/songs.service';
 
 @Component({
   selector: 'app-modal-playlist',
@@ -13,28 +14,23 @@ export class ModalPlaylistComponent implements OnInit {
   constructor(
     private playlistsService: PlaylistsService,
     public toastController: ToastController,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private songsService: SongsService
   ) { }
 
   @Input() userId: string;
   @Input() playlistId: string;
   @Input() playlistTitle: string;
   userPlaylistSongs: Song[];
-  songUrl: string;
-  currentArtist: string;
-  currentSong: string;
-  isListening = false;
 
   getUserPlaylistSongs = async () => this.userPlaylistSongs = await this.playlistsService.getPlaylistSong(this.userId, this.playlistId);
 
-  startPlaying = (uri: string, title: string, artist: string) => {
-    if (this.isListening) {
+  startPlaying = (song: Song) => {
+    if (this.songsService.isListening) {
       return this.presentToast('Please stop the current song before change music!');
     }
-    this.songUrl = uri;
-    this.currentSong = title;
-    this.currentArtist = artist;
-    this.isListening = true;
+    this.songsService.songToPlay = song;
+    this.songsService.isListening = true;
   }
 
   async presentToast(message: string, duration = 2000) {

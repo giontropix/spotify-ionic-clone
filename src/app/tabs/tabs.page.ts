@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SongsService} from '../services/songs.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,6 +8,5 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
-
+  constructor(public songsService: SongsService) {}
 }
