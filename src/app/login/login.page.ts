@@ -13,9 +13,9 @@ export class LoginPage implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private toastController:ToastController,
+    private toastController: ToastController,
     public formBuilder: FormBuilder,
-    public router: Router
+    public router: Router,
   ) { }
 
   group?: FormGroup;
@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
     toast.present();
   }
 
-  goToUser = (id: string) => this.router.navigate([`/users/${id}`]);
+  goToUser = (id: string) => this.router.navigateByUrl(`tabs/tab1`);
 
   loginUser = async () => {
     let user: any = {};

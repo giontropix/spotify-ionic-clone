@@ -3,7 +3,6 @@ import {SongsService} from '../../../services/songs.service';
 import {Song} from '../../../models/Song';
 import {ActionSheetController, IonInfiniteScroll, ToastController} from '@ionic/angular';
 import {PlaylistsService} from '../../../services/playlists.service';
-import {Playlist} from '../../../models/Playlist';
 
 @Component({
   selector: 'app-songs-list',
@@ -98,7 +97,7 @@ export class SongsListComponent implements OnInit {
     await toast.present();
   }
 
-  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all('U1613583743602');
+  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(localStorage.getItem('user_id'));
 
   getAllSongs = async () => this.allSongs = await this.songsService.all();
 
