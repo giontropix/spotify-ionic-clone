@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {ModalPlaylistComponent} from '../modal-playlist/modal-playlist.component';
 
 @Component({
@@ -13,10 +13,12 @@ export class PlaylistsComponent implements OnInit {
 
   constructor(
     private playlistsService: PlaylistsService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public toastController: ToastController
   ) {}
 
   userPlaylists: UserPlaylist[];
+  newPlaylistName = '';
 
   async showPlaylist(playlistId: string, playlistTitle) {
     const modal = await this.modalController.create({
@@ -32,6 +34,28 @@ export class PlaylistsComponent implements OnInit {
   }
 
   getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(localStorage.getItem('user_id'));
+
+  addPlaylist = async () => {
+    if (this.newPlaylistName === '') { return this.presentToast('Compile input field first'); }
+    await this.playlistsService.create(localStorage.getItem('user_id'), {name: this.newPlaylistName});
+    await this.presentToast('Playlist added!');
+    this.newPlaylistName = '';
+    await this.getUserPlaylists();
+  }
+
+  removePlaylist = async (playlistId: string) => {
+    await this.playlistsService.delete(localStorage.getItem('user_id'), playlistId);
+    await this.presentToast('Playlist removed', 3000);
+    await this.getUserPlaylists();
+  }
+
+  async presentToast(message: string, duration = 2000) {
+    const toast = await this.toastController.create({
+      message,
+      duration,
+    });
+    await toast.present();
+  }
 
   async ngOnInit() {
     await this.getUserPlaylists();

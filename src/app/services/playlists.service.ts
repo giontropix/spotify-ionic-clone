@@ -22,13 +22,13 @@ export class PlaylistsService {
   getPlaylistSong = (id: string, playlistId: string): Promise<Song[]> =>
     this.http.get<Song[]>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}/songs`).toPromise()
 
-  create = (id: string, title: any): Promise<void> =>
+  create = (id: string, title: {name: string}): Promise<void> =>
     this.http.post<void>(`${this.API_BASE_URL}/${id}/playlists`, title).toPromise()
       .catch(({error: {error}}) => {
         throw new Error(error);
       })
 
-  delete = (id: string, playlistID: any): Promise<void> =>
+  delete = (id: string, playlistID: string): Promise<void> =>
     this.http.delete<void>(`${this.API_BASE_URL}/${id}/playlists/${playlistID}`).toPromise()
       .catch(({error: {error}}) => {
       throw new Error(error);

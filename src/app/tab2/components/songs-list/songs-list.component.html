@@ -13,17 +13,18 @@
 
 <div *ngIf="songs">
   <ion-list>
-    <ion-item *ngFor="let song of songs">
+    <ion-item-sliding *ngFor="let song of songs">
+    <ion-item (click)="startPlaying(song._src, song._title, song._artist)">
       <ion-label>
         <h2>{{song._title}} </h2>
         <h5>{{song._genre}}</h5>
         <h3>{{song._artist}}</h3>
       </ion-label>
-      <ion-label>
-        <ion-button (click)="startPlaying(song._src, song._title, song._artist)" color="primary"> Play </ion-button>
-        <ion-button (click)="this.addToPlaylists(song)" color="tertiary">Add</ion-button>
-      </ion-label>
     </ion-item>
+      <ion-item-options side="end">
+        <ion-item-option (click)="this.addToPlaylists(song)">Add to</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataForInfiniteScroll($event)">
