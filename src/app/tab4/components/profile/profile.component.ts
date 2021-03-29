@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
       await this.authService.logout(accessToken, refreshToken);
       localStorage.setItem('access_token', '');
       localStorage.setItem('refresh_token', '');
-      localStorage.setItem('translateTitle', 'false');
+      localStorage.setItem('user_id', '');
       await this.router.navigate(['/welcome']);
     }
   }

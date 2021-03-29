@@ -19,6 +19,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   group?: FormGroup;
+  isLogin = false;
 
   getMailErrorMessage = (): string => {
     if (this.group?.controls.mail.hasError('required')) {
@@ -37,41 +38,32 @@ export class LoginPage implements OnInit {
       : '';
   }
 
-  async presentToastWithOptions(message: string, action: string) {
+  async presentToast(message: string, duration = 2000) {
     const toast = await this.toastController.create({
-      header: 'Notification',
       message,
-      position: 'top',
-      duration: 3000,
-      buttons: [
-        {
-          text: action,
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
+      duration,
+      position: 'top'
     });
-    toast.present();
+    await toast.present();
   }
 
-  goToUser = (id: string) => this.router.navigateByUrl(`tabs/tab1`);
+  goToUser = () => this.router.navigateByUrl(`tabs/tab1`);
 
   loginUser = async () => {
+    this.isLogin = true;
     let user: any = {};
     if (this.group?.status === 'INVALID') {
-      return await this.presentToastWithOptions('Field not properly compiled', 'Repeat');
+      return await this.presentToast('Field not properly compiled', 3000);
     }
     try {
       user = await this.authService.login(this.group?.controls.mail.value, this.group?.controls.password.value);
     } catch (error: any) {
-      return await this.presentToastWithOptions(error, 'Repeat!');
+      return await this.presentToast(error);
     }
     localStorage.setItem('refresh_token', user.refresh_token);
     localStorage.setItem('access_token', user.access_token);
     localStorage.setItem('user_id', user.id);
-    await this.goToUser(user.id);
+    await this.goToUser();
   }
 
   ngOnInit(): void {
