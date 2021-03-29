@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="group">
+    <ion-item lines="full">
+      <ion-label position="floating">Name</ion-label>
+      <ion-input type="text" formControlName="user_name" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="text" formControlName="mail" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="password" formControlName="password" required></ion-input>
+    </ion-item>
+
+    <ion-radio-group formControlName="sex">
+      <ion-list-header>
+        <ion-label>Gender</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Male</ion-label>
+        <ion-radio slot="start" color="primary" value="M"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Female</ion-label>
+        <ion-radio slot="start" color="danger" value="F"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-row>
+      <ion-col>
+        <ion-button (click)="regUser()" routerLink="/welcome" type="submit" color="danger" expand="block">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
