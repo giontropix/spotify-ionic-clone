@@ -38,7 +38,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.route.parent );
     this.getUser();
   }
 }

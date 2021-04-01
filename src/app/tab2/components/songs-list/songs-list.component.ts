@@ -4,6 +4,7 @@ import {Song} from '../../../models/Song';
 import {ActionSheetController, IonInfiniteScroll, ToastController} from '@ionic/angular';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
+import {UsersService} from '../../../services/users.service';
 
 @Component({
   selector: 'app-songs-list',
@@ -16,7 +17,8 @@ export class SongsListComponent implements OnInit {
     public songsService: SongsService,
     public toastController: ToastController,
     public actionSheetController: ActionSheetController,
-    public playlistsService: PlaylistsService
+    public playlistsService: PlaylistsService,
+    public usersService: UsersService
   ) {
   }
 
@@ -106,6 +108,8 @@ export class SongsListComponent implements OnInit {
   getSearch = async () => this.songs = await this.songsService.all(this.search, String(this.songsOffset),
     String(this.songsLimit))
 
+  increaseSongView = async (songId: string) => await this.usersService.increaseSongView(localStorage.getItem('user_id'), {song_id: songId});
+
   stopSearchingIfEmptyField = async () => {
     if (this.search === '') {
       this.isSearching = false;
@@ -113,12 +117,14 @@ export class SongsListComponent implements OnInit {
     }
   }
 
-  startPlaying = (song: Song) => {
+  startPlaying = async (song: Song) => {
     if (this.songsService.isListening) {
       return this.presentToast('Please stop the current song before change music!');
     }
     this.songsService.songToPlay = song;
     this.songsService.isListening = true;
+    console.log(localStorage.getItem('user_id'));
+    await this.increaseSongView(song._id);
   }
 
   async ngOnInit() {

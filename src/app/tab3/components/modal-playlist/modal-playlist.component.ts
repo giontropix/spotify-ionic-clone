@@ -25,12 +25,15 @@ export class ModalPlaylistComponent implements OnInit {
 
   getUserPlaylistSongs = async () => this.userPlaylistSongs = await this.playlistsService.getPlaylistSong(this.userId, this.playlistId);
 
-  startPlaying = (song: Song) => {
+  increaseView = async (songId: string) => await this.playlistsService.increaseSongView(this.userId, this.playlistId, {songId});
+
+  startPlaying = async (song: Song) => {
     if (this.songsService.isListening) {
       return this.presentToast('Please stop the current song before change music!');
     }
     this.songsService.songToPlay = song;
     this.songsService.isListening = true;
+    await this.increaseView(song._id);
   }
 
   async presentToast(message: string, duration = 2000) {

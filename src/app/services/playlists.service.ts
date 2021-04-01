@@ -45,4 +45,10 @@ export class PlaylistsService {
       .catch(({error: {error}}) => {
         throw new Error(error);
       })
+
+  increaseSongView = (id: string, playlistId: string, songId: { songId: string }): Promise<void> =>
+    this.http.put<void>(`${this.API_BASE_URL}/${id}/playlists/${playlistId}/songs/player`, songId).toPromise()
+      .catch(({error: {error}}) => {
+        throw new Error(error);
+      })
 }
