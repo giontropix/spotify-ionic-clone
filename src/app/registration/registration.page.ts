@@ -13,75 +13,75 @@ export class RegistrationPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     public authService: AuthService,
-    private toastController:ToastController) { }
+    private toastController: ToastController) { }
 
-    group?: FormGroup;
+  group?: FormGroup;
 
-    getMailErrorMessage = (): string => {
-      if (this.group?.controls.mail.hasError('required')) {
-        return 'You must enter a value';
-      }
-      return this.group?.controls.mail.hasError('email')
-        ? 'Not a valid email' : '';
+  getMailErrorMessage = (): string => {
+    if (this.group?.controls.mail.hasError('required')) {
+      return 'You must enter a value';
     }
-  
-    getUserNameErrorMessage = (): string => {
-      if (this.group?.controls.user_name.hasError('required')) {
-        return 'You must enter a value';
-      }
-      return this.group?.controls.user_name.hasError('minlength')
-        ? 'Insert 3 char al least'
-        : '';
+    return this.group?.controls.mail.hasError('email')
+      ? 'Not a valid email' : '';
+  }
+
+  getUserNameErrorMessage = (): string => {
+    if (this.group?.controls.user_name.hasError('required')) {
+      return 'You must enter a value';
     }
-  
-    getPasswordErrorMessage = (): string => {
-      if (this.group?.controls.user_name.hasError('required')) {
-        return 'You must enter a value';
-      }
-      return this.group?.controls.user_name.hasError('minlength')
-        ? 'Insert 3 char al least'
-        : '';
+    return this.group?.controls.user_name.hasError('minlength')
+      ? 'Insert 3 char al least'
+      : '';
+  }
+
+  getPasswordErrorMessage = (): string => {
+    if (this.group?.controls.user_name.hasError('required')) {
+      return 'You must enter a value';
     }
-  
-    async presentToastWithOptions(message: string, action: string) {
-      const toast = await this.toastController.create({
-        header: 'Notification',
-        message,
-        position: 'top',
-        duration: 3000,
-        buttons: [
-          {
-            text: action,
-            role: 'cancel',
-            handler: () => {
-              console.log('Cancel clicked');
-            }
+    return this.group?.controls.user_name.hasError('minlength')
+      ? 'Insert 3 char al least'
+      : '';
+  }
+
+  async presentToastWithOptions(message: string, action: string) {
+    const toast = await this.toastController.create({
+      header: 'Notification',
+      message,
+      position: 'top',
+      duration: 3000,
+      buttons: [
+        {
+          text: action,
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
           }
-        ]
-      });
-      toast.present();
+        }
+      ]
+    });
+    toast.present();
+  }
+
+  regUser = async () => {
+    if (this.group?.status === 'INVALID') { 
+      return this.presentToastWithOptions('Field not properly compiled', 'Repeat');
     }
-  
-    regUser = async () => {
-      if (this.group?.status === 'INVALID') { return this.presentToastWithOptions('Field not properly compiled', 'Repeat'); }
-      try {
-        await this.authService
-          .register(this.group?.controls.mail.value, this.group?.controls.user_name.value,
-            this.group?.controls.password.value, this.group?.controls.sex.value);
-      } catch (error: any){
-        return this.presentToastWithOptions(error, 'Repeat!');
-      }
-      return this.presentToastWithOptions(`User ${this.group?.controls.user_name.value} created!`, '');
+    try {
+      await this.authService.register(this.group?.controls.mail.value, this.group?.controls.user_name.value, this.group?.controls.password.value, this.group?.controls.sex.value);
+    } catch (error: any) {
+      return this.presentToastWithOptions(error, 'Repeat!');
     }
-  
-    ngOnInit(): void {
-      localStorage.setItem('translateTitle', 'true');
-      this.group = this.formBuilder.group({
-        mail: ['', [Validators.required, Validators.email]],
-        user_name: ['', [Validators.required, Validators.minLength(3)]],
-        password: ['', [Validators.required, Validators.minLength(4)]],
-        sex: ['M', [Validators.required]]
-      });
-    }
+    return this.presentToastWithOptions(`User ${this.group?.controls.user_name.value} created!`, '');
+  }
+
+  ngOnInit(): void {
+    localStorage.setItem('translateTitle', 'true');
+    this.group = this.formBuilder.group({
+      mail: ['', [Validators.required, Validators.email]],
+      user_name: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(4)]],
+      sex: ['M', [Validators.required]]
+    });
+  }
 
 }
