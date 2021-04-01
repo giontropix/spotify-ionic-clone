@@ -24,4 +24,6 @@ export class Tab1Page {
     this.menu.open('custom');
   }
 
+  ngOnInit() {}
+
 }
