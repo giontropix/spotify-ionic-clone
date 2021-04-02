@@ -41,7 +41,6 @@ export class SongsListComponent implements OnInit {
       cssClass: 'my-custom-class',
       buttons: [...this.userPlaylists.map(({title, id}) => ({
           text: title,
-          icon: 'musical-notes-outline',
           handler: async () => {
             try {
               await this.playlistsService.addToPlaylist(localStorage.getItem('user_id'), id, {songId: song._id});
@@ -55,14 +54,10 @@ export class SongsListComponent implements OnInit {
         text: 'Cancel',
         icon: 'close',
         role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
       }]
     });
     await actionSheet.present();
   }
-
 
   loadDataForInfiniteScroll = (event) => {
     if (!this.isSearching) {
