@@ -44,7 +44,7 @@ export class SongsListComponent implements OnInit {
           icon: 'musical-notes-outline',
           handler: async () => {
             try {
-              await this.playlistsService.addToPlaylist(/*this.user._id*/'U1613583743602', id, {songId: song._id});
+              await this.playlistsService.addToPlaylist(localStorage.getItem('user_id'), id, {songId: song._id});
             } catch (error: any) {
               return this.presentToast(error, 3000);
             }
