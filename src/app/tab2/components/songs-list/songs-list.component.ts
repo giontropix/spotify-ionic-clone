@@ -34,6 +34,8 @@ export class SongsListComponent implements OnInit {
   userPlaylists: UserPlaylist[];
 
   addToPlaylists = async (song: Song) => {
+    await this.getUserPlaylists();
+    if (this.userPlaylists.length === 0) { return this.presentToast('No playlists created yet'); }
     const actionSheet = await this.actionSheetController.create({
       header: 'Add to Playlists',
       cssClass: 'my-custom-class',
