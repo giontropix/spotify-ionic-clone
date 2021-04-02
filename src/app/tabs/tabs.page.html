@@ -1,7 +1,9 @@
 <ion-tabs>
 
   <ion-row class="ion-justify-content-center" *ngIf="this.songsService.isListening">
-    <ion-button (click)="this.songsService.isListening = false" color="danger"> Stop </ion-button>
+    <ion-button (click)="this.songsService.isListening = false" color="danger">
+      <ion-icon name="stop-outline"></ion-icon>
+    </ion-button>
     <audio controls autoplay >
       <source src="{{this.songsService.songToPlay._src}}" type="audio/mpeg">
       Your browser does not support the audio element.

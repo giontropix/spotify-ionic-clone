@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
 import {ModalController, ToastController} from '@ionic/angular';
@@ -9,7 +9,7 @@ import {ModalPlaylistComponent} from '../modal-playlist/modal-playlist.component
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss'],
 })
-export class PlaylistsComponent implements OnInit {
+export class PlaylistsComponent implements OnInit, OnChanges {
 
   constructor(
     private playlistsService: PlaylistsService,
@@ -19,6 +19,9 @@ export class PlaylistsComponent implements OnInit {
 
   userPlaylists: UserPlaylist[];
   newPlaylistName = '';
+  @Input() reloadPlaylist;
+  @Input() reloadPlaylistBecauseDelete;
+  @Output() emit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   async showPlaylist(playlistId: string, playlistTitle) {
     const modal = await this.modalController.create({
@@ -59,5 +62,22 @@ export class PlaylistsComponent implements OnInit {
 
   async ngOnInit() {
     await this.getUserPlaylists();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.reloadPlaylist &&
+      changes.reloadPlaylist.previousValue !== changes.reloadPlaylist.currentValue) {
+      this.getUserPlaylists().then(() => {
+        this.playlistsService.isAddingSongtoPlaylist = false;
+        return;
+      });
+    }
+    if (changes.reloadPlaylistBecauseDelete &&
+      changes.reloadPlaylistBecauseDelete.previousValue !== changes.reloadPlaylistBecauseDelete.currentValue) {
+      this.getUserPlaylists().then(() => {
+        this.playlistsService.isRemovingSongfromPlaylist = false;
+        return;
+      });
+    }
   }
 }

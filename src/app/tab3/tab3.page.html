@@ -11,5 +11,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-playlists></app-playlists>
+  <app-playlists [reloadPlaylist]="this.playlistsService.isAddingSongtoPlaylist"
+                 [reloadPlaylistBecauseDelete]="this.playlistsService.isRemovingSongfromPlaylist">
+  </app-playlists>
 </ion-content>

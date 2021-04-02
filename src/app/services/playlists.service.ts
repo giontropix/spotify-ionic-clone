@@ -9,6 +9,8 @@ import {Song} from '../models/Song';
 export class PlaylistsService {
 
   public API_BASE_URL = 'http://localhost:3000/users';
+  private isAddingSongToPlaylist = false;
+  private isRemovingSongFromPlaylist = false;
 
   constructor(private http: HttpClient) {
   }
@@ -51,4 +53,21 @@ export class PlaylistsService {
       .catch(({error: {error}}) => {
         throw new Error(error);
       })
+
+
+  get isAddingSongtoPlaylist(): boolean {
+    return this.isAddingSongToPlaylist;
+  }
+
+  set isAddingSongtoPlaylist(value: boolean) {
+    this.isAddingSongToPlaylist = value;
+  }
+
+  get isRemovingSongfromPlaylist(): boolean {
+    return this.isRemovingSongFromPlaylist;
+  }
+
+  set isRemovingSongfromPlaylist(value: boolean) {
+    this.isRemovingSongFromPlaylist = value;
+  }
 }

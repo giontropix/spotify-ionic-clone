@@ -44,8 +44,9 @@ export class SongsListComponent implements OnInit {
           handler: async () => {
             try {
               await this.playlistsService.addToPlaylist(localStorage.getItem('user_id'), id, {songId: song._id});
+              this.playlistsService.isAddingSongtoPlaylist = true;
             } catch (error: any) {
-              return this.presentToast(error, 3000);
+              return this.presentToast(error, 2000);
             }
             return this.presentToast(`${song._title} added to ${title} playlist`);
           }
@@ -85,7 +86,7 @@ export class SongsListComponent implements OnInit {
     }
   }
 
-  async presentToast(message: string, duration = 2000) {
+  async presentToast(message: string, duration = 1000) {
     const toast = await this.toastController.create({
       message,
       duration,

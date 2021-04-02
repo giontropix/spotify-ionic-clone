@@ -50,10 +50,10 @@ export class ModalPlaylistComponent implements OnInit {
     await this.playlistsService.deleteFromPlaylist(this.userId, this.playlistId, songId);
     await this.presentToast(`Song "${songTitle}" removed from playlist "${this.playlistTitle}"`);
     await this.getUserPlaylistSongs();
+    this.playlistsService.isRemovingSongfromPlaylist = true;
   }
 
   async ngOnInit() {
     await this.getUserPlaylistSongs();
   }
-
 }
