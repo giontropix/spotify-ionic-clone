@@ -30,6 +30,6 @@ export class SongsService {
     this.song = value;
   }
 
-  all = (filter: string = '', offset: string = '', limit: string = '', top: string = ''): Promise<Song[]> =>
-    this.http.get<Song[]>(`${this.API_BASE_URL}/songs?filter=${filter}&offset=${offset}&limit=${limit}&top=${top}`).toPromise()
+  all = (filter: string = '', offset: string = '', limit: string = '', top: string = '', last: string = ''): Promise<Song[]> =>
+    this.http.get<Song[]>(`${this.API_BASE_URL}/songs?filter=${filter}&offset=${offset}&limit=${limit}&top=${top}&last=${last}`).toPromise()
 }

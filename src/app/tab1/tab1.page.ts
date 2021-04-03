@@ -14,10 +14,12 @@ export class Tab1Page {
   constructor(private menu: MenuController, private songsService: SongsService, private profileService: ProfileService) {}
   topSongs: Song[];
   userSuggestedSongs: Song[];
+  lastInsertedSongs: Song[];
 
   getTopRankingSongs = async () => this.topSongs = await this.songsService.all('', '', '', 'true');
   getUserSuggestedSongs = async () => this.userSuggestedSongs =
     await this.profileService.getSuggestedSongs(localStorage.getItem('user_id'))
+  getLastInsertedSongs = async () => this.lastInsertedSongs = await this.songsService.all('', '', '', '', 'true');
 
   openFirst() {
     this.menu.enable(true, 'first');
@@ -36,5 +38,6 @@ export class Tab1Page {
   async ionViewWillEnter() {
     await this.getTopRankingSongs();
     await this.getUserSuggestedSongs();
+    await this.getLastInsertedSongs();
   }
 }

@@ -6,5 +6,6 @@ export interface Song {
   _artist: string;
   _genre: string;
   _src: string;
+  _date: number;
   _album?: string;
 }
