@@ -11,28 +11,35 @@ import {ProfileService} from '../services/profile.service';
 })
 export class Tab1Page {
 
-  constructor(private menu: MenuController, private songsService: SongsService, private profileService: ProfileService) {}
+  constructor(
+    private menu: MenuController,
+    private songsService: SongsService,
+    private profileService: ProfileService
+  ) {}
+
   topSongs: Song[];
   userSuggestedSongs: Song[];
   lastInsertedSongs: Song[];
 
-  getTopRankingSongs = async () => this.topSongs = await this.songsService.all('', '', '', 'true');
+  getTopRankingSongs = async () => this.topSongs = await this.songsService.all('', '', '', 'top');
+
   getUserSuggestedSongs = async () => this.userSuggestedSongs =
     await this.profileService.getSuggestedSongs(localStorage.getItem('user_id'))
-  getLastInsertedSongs = async () => this.lastInsertedSongs = await this.songsService.all('', '', '', '', 'true');
 
-  openFirst() {
-    this.menu.enable(true, 'first');
-    this.menu.open('first');
+  getLastInsertedSongs = async () => this.lastInsertedSongs = await this.songsService.all('', '', '', 'last');
+
+  async openFirst() {
+    await this.menu.enable(true, 'first');
+    await this.menu.open('first');
   }
 
-  openEnd() {
-    this.menu.open('end');
+  async openEnd() {
+    await this.menu.open('end');
   }
 
-  openCustom() {
-    this.menu.enable(true, 'custom');
-    this.menu.open('custom');
+  async openCustom() {
+    await this.menu.enable(true, 'custom');
+    await this.menu.open('custom');
   }
 
   async ionViewWillEnter() {
