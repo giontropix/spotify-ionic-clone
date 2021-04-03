@@ -3,6 +3,7 @@ import {PlaylistsService} from '../../../services/playlists.service';
 import {Song} from '../../../models/Song';
 import {ModalController, ToastController} from '@ionic/angular';
 import {SongsService} from '../../../services/songs.service';
+import {UsersService} from '../../../services/users.service';
 
 @Component({
   selector: 'app-modal-playlist',
@@ -15,7 +16,8 @@ export class ModalPlaylistComponent implements OnInit {
     private playlistsService: PlaylistsService,
     public toastController: ToastController,
     public modalController: ModalController,
-    private songsService: SongsService
+    private songsService: SongsService,
+    private usersService: UsersService
   ) { }
 
   @Input() userId: string;
@@ -25,7 +27,7 @@ export class ModalPlaylistComponent implements OnInit {
 
   getUserPlaylistSongs = async () => this.userPlaylistSongs = await this.playlistsService.getPlaylistSong(this.userId, this.playlistId);
 
-  increaseView = async (songId: string) => await this.playlistsService.increaseSongView(this.userId, this.playlistId, {songId});
+  increaseView = async (songId: string) => await this.usersService.increaseSongView(this.userId, {song_id: songId});
 
   startPlaying = async (song: Song) => {
     if (this.songsService.isListening) {
