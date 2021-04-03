@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {ToastController} from '@ionic/angular';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -72,7 +72,6 @@ export class LoginPage implements OnInit {
       mail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
     });
-    console.log(this.group);
   }
 
 }

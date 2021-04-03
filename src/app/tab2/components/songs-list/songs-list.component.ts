@@ -63,7 +63,6 @@ export class SongsListComponent implements OnInit {
   loadDataForInfiniteScroll = (event) => {
     if (!this.isSearching) {
       return setTimeout(async () => {
-        console.log('Done');
         event.target.complete();
         const songsToPush = await this.songsService.all('', String(this.songs.length),
           String(this.songsLimit));
@@ -74,7 +73,6 @@ export class SongsListComponent implements OnInit {
       }, 500);
     } else {
       this.getSearch().then(() => setTimeout(async () => {
-        console.log('Done');
         event.target.complete();
         const songsToPush = await this.songsService.all(this.search, String(this.songs.length),
           String(this.songsLimit));
@@ -121,7 +119,6 @@ export class SongsListComponent implements OnInit {
     }
     this.songsService.songToPlay = song;
     this.songsService.isListening = true;
-    console.log(localStorage.getItem('user_id'));
     await this.increaseSongView(song._id);
   }
 

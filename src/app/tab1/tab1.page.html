@@ -30,7 +30,8 @@
     </ion-content>
   </ion-menu> -->
   <!-- <ion-router-outlet id="main"></ion-router-outlet> -->
-  <app-home></app-home>
+  <app-home title="Most listened" componentRole="top" [list]="this.topSongs"></app-home>
+
+  <app-home title="Suggested for you" componentRole="suggested" [list]="this.userSuggestedSongs"></app-home>
 
 </ion-content>
-<div></div>
