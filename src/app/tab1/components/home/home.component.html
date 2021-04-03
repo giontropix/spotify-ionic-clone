@@ -8,10 +8,13 @@
   <ion-slide class="sliding-item" *ngFor="let song of this.list; index as i">
     <ion-card class="card-into-sliding" (click)="startPlaying(song)">
       <ion-card-header *ngIf="componentRole==='top'">
-        #{{i + 1}}
+        {{i + 1}}°
       </ion-card-header>
       <ion-card-header *ngIf="componentRole==='last'">
-        #{{song._date | date}}
+        {{song._date | date}}
+      </ion-card-header>
+      <ion-card-header *ngIf="componentRole==='suggested'">
+        {{song._genre}}
       </ion-card-header>
       <ion-card-content>
         <ion-card-subtitle>{{song._artist}}</ion-card-subtitle>
