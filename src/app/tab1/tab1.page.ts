@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {MenuController} from '@ionic/angular';
 import {SongsService} from '../services/songs.service';
 import {Song} from '../models/Song';
@@ -9,7 +9,7 @@ import {ProfileService} from '../services/profile.service';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page implements OnInit{
+export class Tab1Page {
 
   constructor(private menu: MenuController, private songsService: SongsService, private profileService: ProfileService) {}
   topSongs: Song[];
@@ -33,9 +33,8 @@ export class Tab1Page implements OnInit{
     this.menu.open('custom');
   }
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     await this.getTopRankingSongs();
     await this.getUserSuggestedSongs();
   }
-
 }
