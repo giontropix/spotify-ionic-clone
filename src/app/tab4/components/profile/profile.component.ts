@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {User} from 'src/app/models/User';
 import {AuthService} from 'src/app/services/auth.service';
-import {ProfileService} from 'src/app/services/profile.service';
 import {ModalController, NavParams} from '@ionic/angular';
+import {UsersService} from '../../../services/users.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     public router: Router,
-    public usersService: ProfileService,
+    public usersService: UsersService,
     public route: ActivatedRoute,
     public navParams: NavParams,
     public modalController: ModalController

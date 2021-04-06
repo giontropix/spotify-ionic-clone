@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {MenuController} from '@ionic/angular';
 import {SongsService} from '../services/songs.service';
 import {Song} from '../models/Song';
-import {ProfileService} from '../services/profile.service';
+import {UsersService} from '../services/users.service';
 
 @Component({
   selector: 'app-tab1',
@@ -14,7 +14,7 @@ export class Tab1Page {
   constructor(
     private menu: MenuController,
     private songsService: SongsService,
-    private profileService: ProfileService
+    private usersService: UsersService
   ) {}
 
   topSongs: Song[];
@@ -24,7 +24,7 @@ export class Tab1Page {
   getTopRankingSongs = async () => this.topSongs = await this.songsService.all('', '', '', 'top');
 
   getUserSuggestedSongs = async () => this.userSuggestedSongs =
-    await this.profileService.getSuggestedSongs(localStorage.getItem('user_id'))
+    await this.usersService.getSuggestedSongs(localStorage.getItem('user_id'))
 
   getLastInsertedSongs = async () => this.lastInsertedSongs = await this.songsService.all('', '', '', 'last');
 
