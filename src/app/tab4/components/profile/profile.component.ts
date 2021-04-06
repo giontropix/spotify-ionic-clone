@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { AuthService } from 'src/app/services/auth.service';
-import { ProfileService } from 'src/app/services/profile.service';
-import {NavParams} from '@ionic/angular';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from 'src/app/models/User';
+import {AuthService} from 'src/app/services/auth.service';
+import {ProfileService} from 'src/app/services/profile.service';
+import {ModalController, NavParams} from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -18,7 +18,9 @@ export class ProfileComponent implements OnInit {
     public usersService: ProfileService,
     public route: ActivatedRoute,
     public navParams: NavParams,
-  ) {}
+    public modalController: ModalController
+  ) {
+  }
 
   user: User;
 
@@ -36,6 +38,39 @@ export class ProfileComponent implements OnInit {
       await this.router.navigate(['/welcome']);
     }
   }
+
+  /*async openListOfUsers() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        user_id: localStorage.getItem('user_id')
+      }
+    });
+    return await modal.present();
+  }
+
+  async openListOfFollowed() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        user_id: localStorage.getItem('user_id')
+      }
+    });
+    return await modal.present();
+  }
+
+  async openListOfFollowers() {
+    const modal = await this.modalController.create({
+      component: ModalPage,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        user_id: localStorage.getItem('user_id')
+      }
+    });
+    return await modal.present();
+  }*/
 
   async ngOnInit() {
     await this.getUser();

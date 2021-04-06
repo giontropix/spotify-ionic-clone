@@ -22,7 +22,7 @@
       <ion-label position="floating">
         <h1>Password</h1>
         <ion-label color="danger"
-                   *ngIf="group.controls.password.invalid && submitLogin">{{getMailErrorMessage()}}</ion-label>
+                   *ngIf="group.controls.password.invalid && submitLogin">{{getPasswordErrorMessage()}}</ion-label>
         <ion-input type="password" formControlName="password" required></ion-input>
       </ion-label>
     </ion-item>
