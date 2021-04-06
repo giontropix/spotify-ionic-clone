@@ -13,21 +13,19 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content class="auth-form">
-    <ion-grid>
-      <ion-row>
-        <ion-col class="ion-align-self-center">
-          <ion-button routerLink="/registration" expand="block" color="primary">Register</ion-button>
+  <ion-grid class="buttons-position">
+    <ion-row>
+      <ion-col class="ion-align-self-center">
+        <ion-button routerLink="/registration" expand="block" color="primary">Register</ion-button>
 
-          <span class="divider line one-line">or</span>
+        <ion-label class="divider line one-line">or</ion-label>
 
-          <span class="already">Already a user?</span>
+        <ion-label class="already">Already a user?</ion-label>
 
-          <ion-button routerLink="/login" expand="block" color="danger">Sign In</ion-button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-content>
+        <ion-button routerLink="/login" expand="block" color="danger">Sign In</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <router-outlet></router-outlet>
 </ion-content>
