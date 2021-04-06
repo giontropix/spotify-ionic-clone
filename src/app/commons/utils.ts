@@ -4,6 +4,8 @@ import {SongsService} from '../services/songs.service';
 import {UsersService} from '../services/users.service';
 
 const toastController: ToastController = new ToastController();
+export const API_BASE_URL_USER = 'http://localhost:3000/users';
+export const API_BASE_URL = 'http://localhost:3000';
 
 export const presentToast = async (message: string, duration = 1000) => {
   const toast = await toastController.create({
