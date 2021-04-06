@@ -10,21 +10,18 @@
 <ion-content>
   <form [formGroup]="group">
     <ion-item lines="full">
-      <ion-label position="floating">
-        <h1>Email</h1>
+        <ion-label position="floating"><h1>Email</h1></ion-label>
         <ion-label color="danger"
                    *ngIf="group.controls.mail.invalid && submitLogin">{{getMailErrorMessage()}}</ion-label>
         <ion-input type="email" formControlName="mail" required></ion-input>
-      </ion-label>
+ 
     </ion-item>
 
     <ion-item lines="full">
-      <ion-label position="floating">
-        <h1>Password</h1>
+        <ion-label position="floating"><h1>Password</h1></ion-label>
         <ion-label color="danger"
                    *ngIf="group.controls.password.invalid && submitLogin">{{getPasswordErrorMessage()}}</ion-label>
         <ion-input type="password" formControlName="password" required></ion-input>
-      </ion-label>
     </ion-item>
 
     <ion-row>

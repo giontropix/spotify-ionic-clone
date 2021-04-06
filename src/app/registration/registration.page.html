@@ -12,25 +12,31 @@
     <ion-item lines="full">
       <ion-label position="floating">
         <h1>Name</h1>
-        <ion-label color="danger" *ngIf="group.controls.user_name.invalid && submitRegistration">{{getUserNameErrorMessage()}}</ion-label>
-        <ion-input type="text" formControlName="user_name" required></ion-input>
       </ion-label>
+      <ion-label color="danger" *ngIf="group.controls.user_name.invalid && submitRegistration">
+        {{getUserNameErrorMessage()}}</ion-label>
+      <ion-input type="text" formControlName="user_name" required></ion-input>
+
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">
         <h1>Email</h1>
-        <ion-label color="danger" *ngIf="group.controls.mail.invalid && submitRegistration">{{getMailErrorMessage()}}</ion-label>
-        <ion-input type="email" formControlName="mail" required></ion-input>
       </ion-label>
+      <ion-label color="danger" *ngIf="group.controls.mail.invalid && submitRegistration">{{getMailErrorMessage()}}
+      </ion-label>
+      <ion-input type="email" formControlName="mail" required></ion-input>
+
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">
         <h1>Password</h1>
-        <ion-label color="danger" *ngIf="group.controls.password.invalid && submitRegistration">{{getPasswordErrorMessage()}}</ion-label>
-        <ion-input type="password" formControlName="password" required></ion-input>
       </ion-label>
+      <ion-label color="danger" *ngIf="group.controls.password.invalid && submitRegistration">
+        {{getPasswordErrorMessage()}}</ion-label>
+      <ion-input type="password" formControlName="password" required></ion-input>
+
     </ion-item>
 
     <ion-radio-group formControlName="sex">
