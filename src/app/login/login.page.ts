@@ -19,6 +19,7 @@ export class LoginPage implements OnInit {
 
   group?: FormGroup;
   isLogin = false;
+  submitLogin: boolean;
 
   getMailErrorMessage = (): string => {
     if (this.group?.controls.mail.hasError('required')) {
@@ -57,7 +58,7 @@ export class LoginPage implements OnInit {
   }
 
   ngOnInit(): void {
-    localStorage.setItem('translateTitle', 'true');
+    this.submitLogin = false;
     this.group = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
