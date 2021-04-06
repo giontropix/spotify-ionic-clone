@@ -14,50 +14,51 @@ export class RegistrationPage implements OnInit {
     public formBuilder: FormBuilder,
     public authService: AuthService) { }
 
-  group?: FormGroup;
+  group: FormGroup;
+  submitRegistration: boolean;
 
   getMailErrorMessage = (): string => {
-    if (this.group?.controls.mail.hasError('required')) {
+    if (this.group.controls.mail.hasError('required')) {
       return 'You must enter a value';
     }
-    return this.group?.controls.mail.hasError('email')
+    return this.group.controls.mail.hasError('email')
       ? 'Not a valid email' : '';
   }
 
   getUserNameErrorMessage = (): string => {
-    if (this.group?.controls.user_name.hasError('required')) {
+    if (this.group.controls.user_name.hasError('required')) {
       return 'You must enter a value';
     }
-    return this.group?.controls.user_name.hasError('minlength')
+    return this.group.controls.user_name.hasError('minlength')
       ? 'Insert 3 char al least'
       : '';
   }
 
   getPasswordErrorMessage = (): string => {
-    if (this.group?.controls.user_name.hasError('required')) {
+    if (this.group.controls.password.hasError('required')) {
       return 'You must enter a value';
     }
-    return this.group?.controls.user_name.hasError('minlength')
+    return this.group.controls.password.hasError('minlength')
       ? 'Insert 3 char al least'
       : '';
   }
 
   regUser = async () => {
-    if (this.group?.status === 'INVALID') {
+    if (this.group.status === 'INVALID') {
       return presentToast('Field not properly compiled');
     }
     try {
       await this.authService.register(
-        this.group?.controls.mail.value, this.group?.controls.user_name.value,
-        this.group?.controls.password.value, this.group?.controls.sex.value);
+        this.group.controls.mail.value, this.group.controls.user_name.value,
+        this.group.controls.password.value, this.group.controls.sex.value);
     } catch (error: any) {
       return presentToast(error);
     }
-    return presentToast(`User ${this.group?.controls.user_name.value} created!`);
+    return presentToast(`User ${this.group.controls.user_name.value} created!`);
   }
 
   ngOnInit(): void {
-    localStorage.setItem('translateTitle', 'true');
+    this.submitRegistration = false;
     this.group = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],
       user_name: ['', [Validators.required, Validators.minLength(3)]],
