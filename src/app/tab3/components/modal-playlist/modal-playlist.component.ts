@@ -1,9 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {Song} from '../../../models/Song';
-import {ModalController, ToastController} from '@ionic/angular';
+import {ModalController} from '@ionic/angular';
 import {SongsService} from '../../../services/songs.service';
 import {UsersService} from '../../../services/users.service';
+import {presentToast, startPlaying} from '../../../commons/utils';
 
 @Component({
   selector: 'app-modal-playlist',
@@ -14,7 +15,6 @@ export class ModalPlaylistComponent implements OnInit {
 
   constructor(
     private playlistsService: PlaylistsService,
-    public toastController: ToastController,
     public modalController: ModalController,
     private songsService: SongsService,
     private usersService: UsersService
@@ -27,30 +27,24 @@ export class ModalPlaylistComponent implements OnInit {
 
   getUserPlaylistSongs = async () => this.userPlaylistSongs = await this.playlistsService.getPlaylistSong(this.userId, this.playlistId);
 
-  increaseView = async (songId: string) => await this.usersService.increaseSongView(this.userId, {song_id: songId});
+  /*increaseView = async (songId: string) => await this.usersService.increaseSongView(this.userId, {song_id: songId});
 
   startPlaying = async (song: Song) => {
     if (this.songsService.isListening) {
-      return this.presentToast('Please stop the current song before change music!');
+      return presentToast('Please stop the current song before change music!');
     }
     this.songsService.songToPlay = song;
     this.songsService.isListening = true;
     await this.increaseView(song._id);
-  }
+  }*/
 
-  async presentToast(message: string, duration = 2000) {
-    const toast = await this.toastController.create({
-      message,
-      duration,
-    });
-    await toast.present();
-  }
+  startPlaying = (song: Song) => startPlaying(this.songsService, this.usersService, song);
 
   dismiss = () => this.modalController.dismiss();
 
   deleteSong = async (songId: string, songTitle: string) => {
     await this.playlistsService.deleteFromPlaylist(this.userId, this.playlistId, songId);
-    await this.presentToast(`Song "${songTitle}" removed from playlist "${this.playlistTitle}"`);
+    await presentToast(`Song "${songTitle}" removed from playlist "${this.playlistTitle}"`);
     await this.getUserPlaylistSongs();
     this.playlistsService.isRemovingSongfromPlaylist = true;
   }

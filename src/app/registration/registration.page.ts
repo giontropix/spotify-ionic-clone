@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
-import { AuthService } from '../services/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
+import {presentToast} from '../commons/utils';
 
 @Component({
   selector: 'app-registration',
@@ -12,8 +12,7 @@ export class RegistrationPage implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    public authService: AuthService,
-    private toastController: ToastController) { }
+    public authService: AuthService) { }
 
   group?: FormGroup;
 
@@ -43,35 +42,18 @@ export class RegistrationPage implements OnInit {
       : '';
   }
 
-  async presentToastWithOptions(message: string, action: string) {
-    const toast = await this.toastController.create({
-      header: 'Notification',
-      message,
-      position: 'top',
-      duration: 3000,
-      buttons: [
-        {
-          text: action,
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        }
-      ]
-    });
-    toast.present();
-  }
-
   regUser = async () => {
-    if (this.group?.status === 'INVALID') { 
-      return this.presentToastWithOptions('Field not properly compiled', 'Repeat');
+    if (this.group?.status === 'INVALID') {
+      return presentToast('Field not properly compiled');
     }
     try {
-      await this.authService.register(this.group?.controls.mail.value, this.group?.controls.user_name.value, this.group?.controls.password.value, this.group?.controls.sex.value);
+      await this.authService.register(
+        this.group?.controls.mail.value, this.group?.controls.user_name.value,
+        this.group?.controls.password.value, this.group?.controls.sex.value);
     } catch (error: any) {
-      return this.presentToastWithOptions(error, 'Repeat!');
+      return presentToast(error);
     }
-    return this.presentToastWithOptions(`User ${this.group?.controls.user_name.value} created!`, '');
+    return presentToast(`User ${this.group?.controls.user_name.value} created!`);
   }
 
   ngOnInit(): void {
