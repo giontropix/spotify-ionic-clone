@@ -1,3 +1,4 @@
+import { UsersListComponent } from './components/users-list/users-list.component';
 import { FollowedComponent } from './components/followed/followed.component';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -16,6 +17,6 @@ import { ProfileComponent } from './components/profile/profile.component';
     RouterModule.forChild([{ path: '', component: Tab4Page }]),
     Tab4PageRoutingModule,
   ],
-  declarations: [Tab4Page, ProfileComponent, FollowedComponent],
+  declarations: [Tab4Page, ProfileComponent, FollowedComponent, UsersListComponent],
 })
 export class Tab4PageModule { }

@@ -1,3 +1,4 @@
+import { UsersListComponent } from './../users-list/users-list.component';
 import { FollowedComponent } from './../followed/followed.component';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -40,16 +41,16 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  // async openListOfUsers() {
-  //   const modal = await this.modalController.create({
-  //     component: ModalPage,
-  //     cssClass: 'my-custom-class',
-  //     componentProps: {
-  //       user_id: localStorage.getItem('user_id')
-  //     }
-  //   });
-  //   return await modal.present();
-  // }
+  async openListOfUsers() {
+    const modal = await this.modalController.create({
+      component: UsersListComponent,
+      cssClass: 'my-custom-class',
+      componentProps: {
+        user_id: localStorage.getItem('user_id')
+      }
+    });
+    return await modal.present();
+  }
 
   async openListOfFollowed() {
     const modal = await this.modalController.create({
