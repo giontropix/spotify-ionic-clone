@@ -1,3 +1,15 @@
 .player-color {
   background-color: #f1f3f4;
+  
+}
+
+.playerHead{
+  background-color: #008000;
+  color: white;
+}
+
+@media (prefers-color-scheme: dark) {
+  .player-color {
+    background-color: #3a3a3a;
+  }
 }
