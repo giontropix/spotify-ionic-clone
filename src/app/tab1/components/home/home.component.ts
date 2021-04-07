@@ -11,8 +11,9 @@ import {startPlaying} from '../../../commons/utils';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private songsService: SongsService,
-              private usersService: UsersService,
+  constructor(
+    private songsService: SongsService,
+    private usersService: UsersService,
   ) { }
   @Input() title: string;
   @Input() list: Song[];
@@ -21,5 +22,4 @@ export class HomeComponent implements OnInit {
   startPlaying = (song: Song) => startPlaying(this.songsService, this.usersService, song);
 
   ngOnInit() {}
-
 }

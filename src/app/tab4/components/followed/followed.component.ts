@@ -2,6 +2,7 @@ import {ModalController, ToastController} from '@ionic/angular';
 import {SocialService} from '../../../services/social.service';
 import {Component, OnInit} from '@angular/core';
 import {Follower} from 'src/app/models/Follower';
+import {USER_ID} from '../../../commons/utils';
 
 @Component({
   selector: 'app-followed',
@@ -21,13 +22,13 @@ export class FollowedComponent implements OnInit {
   followedOffset = 0;
   followedLimit = 5;
 
-  getAllFollowed = async () => this.allFollowed = await this.friendsService.allFollowed(localStorage.getItem('user_id'));
+  getAllFollowed = async () => this.allFollowed = await this.friendsService.allFollowed(USER_ID);
 
   getFollowed = async () => this.followed =
-    await this.friendsService.allFollowed(localStorage.getItem('user_id'), String(this.followedOffset), String(this.followedLimit))
+    await this.friendsService.allFollowed(USER_ID, String(this.followedOffset), String(this.followedLimit))
 
   removeFollowed = async (friendToUnfollowId: string, friendToUnfollowName: string) => {
-    await this.friendsService.remove(localStorage.getItem('user_id'), friendToUnfollowId);
+    await this.friendsService.remove(USER_ID, friendToUnfollowId);
     await this.presentToast(`${friendToUnfollowName} removed from followed list!`);
     await this.getAllFollowed();
   }

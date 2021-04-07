@@ -1,28 +1,30 @@
-.sliding-item{
-  width: 200px;
-  height: 200px;
-  border: 2px
+.sliding-item {
+  width: 225px;
+  height: 225px;
+  border: 1px;
 }
-.card-into-sliding{
+
+.card-into-sliding {
   height: 90%;
   width: 100%;
 }
+
 .margin-between-component {
   margin-top: 1rem;
 }
 
-.mostListened{
+.mostListened {
   background-color: purple;
   color: white;
-  
+
 }
 
-.lastAdded{
+.lastAdded {
   background-color: #303F9F;
   color: white;
 }
 
-.suggested{
+.suggested {
   background-color: #008000;
   color: white;
 }

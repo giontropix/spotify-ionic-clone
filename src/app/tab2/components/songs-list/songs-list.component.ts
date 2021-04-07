@@ -5,7 +5,7 @@ import {ActionSheetController, IonInfiniteScroll} from '@ionic/angular';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
 import {UsersService} from '../../../services/users.service';
-import {presentToast, startPlaying} from '../../../commons/utils';
+import {presentToast, startPlaying, USER_ID} from '../../../commons/utils';
 
 @Component({
   selector: 'app-songs-list',
@@ -44,7 +44,7 @@ export class SongsListComponent implements OnInit {
           text: title,
           handler: async () => {
             try {
-              await this.playlistsService.addToPlaylist(localStorage.getItem('user_id'), id, {songId: song._id});
+              await this.playlistsService.addToPlaylist(USER_ID, id, {songId: song._id});
               this.playlistsService.isAddingSongtoPlaylist = true;
             } catch (error: any) {
               return presentToast(error, 2000);
@@ -87,7 +87,7 @@ export class SongsListComponent implements OnInit {
 
   startPlaying = (song: Song) => startPlaying(this.songsService, this.usersService, song);
 
-  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(localStorage.getItem('user_id'));
+  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(USER_ID);
 
   getAllSongs = async () => this.allSongs = await this.songsService.all();
 

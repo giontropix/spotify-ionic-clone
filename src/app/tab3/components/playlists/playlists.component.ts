@@ -3,7 +3,7 @@ import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
 import {ModalController} from '@ionic/angular';
 import {ModalPlaylistComponent} from '../modal-playlist/modal-playlist.component';
-import {presentToast} from '../../../commons/utils';
+import {presentToast, USER_ID} from '../../../commons/utils';
 
 @Component({
   selector: 'app-playlists',
@@ -28,7 +28,7 @@ export class PlaylistsComponent implements OnInit, OnChanges {
       component: ModalPlaylistComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        userId: localStorage.getItem('user_id'),
+        userId: USER_ID,
         playlistId,
         playlistTitle
       }
@@ -36,18 +36,18 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     return await modal.present();
   }
 
-  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(localStorage.getItem('user_id'));
+  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(USER_ID);
 
   addPlaylist = async () => {
     if (this.newPlaylistName === '') { return presentToast('Compile input field first'); }
-    await this.playlistsService.create(localStorage.getItem('user_id'), {name: this.newPlaylistName});
+    await this.playlistsService.create(USER_ID, {name: this.newPlaylistName});
     await presentToast('Playlist added!');
     this.newPlaylistName = '';
     await this.getUserPlaylists();
   }
 
   removePlaylist = async (playlistId: string) => {
-    await this.playlistsService.delete(localStorage.getItem('user_id'), playlistId);
+    await this.playlistsService.delete(USER_ID, playlistId);
     await presentToast('Playlist removed', 3000);
     await this.getUserPlaylists();
   }

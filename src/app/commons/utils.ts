@@ -6,6 +6,7 @@ import {UsersService} from '../services/users.service';
 const toastController: ToastController = new ToastController();
 export const API_BASE_URL_USER = 'http://localhost:3000/users';
 export const API_BASE_URL = 'http://localhost:3000';
+export const USER_ID = localStorage.getItem('user_id');
 
 export const presentToast = async (message: string, duration = 1000) => {
   const toast = await toastController.create({
@@ -16,7 +17,7 @@ export const presentToast = async (message: string, duration = 1000) => {
 };
 
 const increaseSongView = async (usersService: UsersService, songId: string) =>
-  await usersService.increaseSongView(localStorage.getItem('user_id'), {song_id: songId});
+  await usersService.increaseSongView(USER_ID, {song_id: songId});
 
 export const startPlaying = async (songsService: SongsService, usersService: UsersService, song: Song) => {
   if (songsService.isListening) {

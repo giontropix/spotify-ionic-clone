@@ -1,4 +1,4 @@
-import {presentToast} from '../../../commons/utils';
+import {presentToast, USER_ID} from '../../../commons/utils';
 import {SocialService} from '../../../services/social.service';
 import {User} from 'src/app/models/User';
 import {Component, OnInit} from '@angular/core';
@@ -28,13 +28,13 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(localStorage.getItem('user_id'));
+  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(USER_ID);
 
   removeJustFollowed = (id: string) => this.allFollowed.find(({_id}: Follower) => _id === id);
 
   addFriend = async (userIdToFollow: string, userNameToFollow: string) => {
     try {
-      await this.socialService.add(localStorage.getItem('user_id'), {userIdToFollow});
+      await this.socialService.add(USER_ID, {userIdToFollow});
     } catch (error: any) {
       return presentToast(error);
     }

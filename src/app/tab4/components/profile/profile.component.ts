@@ -1,11 +1,12 @@
-import { UsersListComponent } from './../users-list/users-list.component';
-import { FollowedComponent } from './../followed/followed.component';
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { AuthService } from 'src/app/services/auth.service';
-import { ModalController, NavParams } from '@ionic/angular';
-import { UsersService } from '../../../services/users.service';
+import {UsersListComponent} from './../users-list/users-list.component';
+import {FollowedComponent} from './../followed/followed.component';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {User} from 'src/app/models/User';
+import {AuthService} from 'src/app/services/auth.service';
+import {ModalController, NavParams} from '@ionic/angular';
+import {UsersService} from '../../../services/users.service';
+import {USER_ID} from '../../../commons/utils';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +28,7 @@ export class ProfileComponent implements OnInit {
   user: User;
 
   getUser = async () =>
-    (this.user = await this.usersService.get(localStorage.getItem('user_id')))
+    (this.user = await this.usersService.get(USER_ID))
 
   logout = async () => {
     const accessToken = localStorage.getItem('access_token');
@@ -46,7 +47,7 @@ export class ProfileComponent implements OnInit {
       component: UsersListComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        user_id: localStorage.getItem('user_id')
+        user_id: USER_ID
       }
     });
     return await modal.present();
@@ -57,22 +58,11 @@ export class ProfileComponent implements OnInit {
       component: FollowedComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        user_id: localStorage.getItem('user_id')
+        user_id: USER_ID
       }
     });
     return await modal.present();
   }
-
-  // async openListOfFollowers() {
-  //   const modal = await this.modalController.create({
-  //     component: ModalPage,
-  //     cssClass: 'my-custom-class',
-  //     componentProps: {
-  //       user_id: localStorage.getItem('user_id')
-  //     }
-  //   });
-  //   return await modal.present();
-  // }
 
   async ngOnInit() {
     await this.getUser();
