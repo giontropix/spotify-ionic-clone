@@ -1,7 +1,7 @@
 <div class="ion-page">
   <ion-header translucent>
     <ion-toolbar>
-      <ion-title>Followed</ion-title>
+      <ion-title>Followed list</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="this.dismiss()">Close</ion-button>
       </ion-buttons>
@@ -13,7 +13,10 @@
       <ion-item-sliding *ngFor='let followed of this.allFollowed'>
         <ion-item>
           <ion-avatar slot="start">
-            <img src="../../../../assets/stark.jpg">
+            <img *ngIf="followed._sex === 'F'; else elseMale" src="../../../../assets/beautiful.jpg" alt="user-icon">
+            <ng-template #elseMale>
+              <img src="../../../../assets/stark.jpg" alt="user-icon">
+            </ng-template>
           </ion-avatar>
           <ion-label>{{followed._user_name}}</ion-label>
         </ion-item>

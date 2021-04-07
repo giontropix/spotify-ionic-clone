@@ -1,7 +1,7 @@
-import { ModalController, ToastController } from '@ionic/angular';
-import { SocialService } from '../../../services/social.service';
-import { Component, OnInit } from '@angular/core';
-import { Follower } from 'src/app/models/Follower';
+import {ModalController, ToastController} from '@ionic/angular';
+import {SocialService} from '../../../services/social.service';
+import {Component, OnInit} from '@angular/core';
+import {Follower} from 'src/app/models/Follower';
 
 @Component({
   selector: 'app-followed',
