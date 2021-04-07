@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {ModalPlaylistComponent} from '../modal-playlist/modal-playlist.component';
 import {presentToast, USER_ID} from '../../../commons/utils';
 
@@ -14,7 +14,8 @@ export class PlaylistsComponent implements OnInit, OnChanges {
 
   constructor(
     private playlistsService: PlaylistsService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    public alertController: AlertController
   ) {}
 
   userPlaylists: UserPlaylist[];
@@ -34,6 +35,27 @@ export class PlaylistsComponent implements OnInit, OnChanges {
       }
     });
     return await modal.present();
+  }
+
+  async confirmRemovePlaylist(playlistId: string) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: 'Do you really want to <strong>delete</strong> this playlist?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.removePlaylist(playlistId);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(USER_ID);

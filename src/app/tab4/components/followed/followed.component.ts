@@ -1,8 +1,8 @@
-import {ModalController, ToastController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {SocialService} from '../../../services/social.service';
 import {Component, OnInit} from '@angular/core';
 import {Follower} from 'src/app/models/Follower';
-import {USER_ID} from '../../../commons/utils';
+import {presentToast, USER_ID} from '../../../commons/utils';
 
 @Component({
   selector: 'app-followed',
@@ -13,9 +13,10 @@ export class FollowedComponent implements OnInit {
 
   constructor(
     private friendsService: SocialService,
-    private toastController: ToastController,
-    public modalController: ModalController
-  ) { }
+    public modalController: ModalController,
+    public alertController: AlertController
+  ) {
+  }
 
   followed: Follower[] = [];
   allFollowed: Follower[] = [];
@@ -29,17 +30,30 @@ export class FollowedComponent implements OnInit {
 
   removeFollowed = async (friendToUnfollowId: string, friendToUnfollowName: string) => {
     await this.friendsService.remove(USER_ID, friendToUnfollowId);
-    await this.presentToast(`${friendToUnfollowName} removed from followed list!`);
+    await presentToast(`${friendToUnfollowName} removed from followed list!`);
     await this.getAllFollowed();
   }
 
-  async presentToast(message: string, duration = 2000) {
-    const toast = await this.toastController.create({
-      message,
-      duration,
-      position: 'top'
+  async confirmRemoveFollowed(friendToUnfollowId: string, friendToUnfollowName: string) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: `Do you really want to <strong>remove</strong> ${friendToUnfollowName} from your friends list?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Okay',
+          handler: () => {
+            this.removeFollowed(friendToUnfollowId, friendToUnfollowName);
+          }
+        }
+      ]
     });
-    await toast.present();
+
+    await alert.present();
   }
 
   async dismiss() {

@@ -1,4 +1,4 @@
-<ion-list *ngIf="this.userPlaylists">
+<ion-list *ngIf="this.userPlaylists; else elseBlock">
   <ion-item>
     <ion-icon (click)="addPlaylist()" name="add-outline"></ion-icon>
     <ion-input [(ngModel)]="this.newPlaylistName" placeholder="playlist's name"></ion-input>
@@ -9,7 +9,13 @@
       <ion-badge color="primary">{{playlist.length}}</ion-badge>
     </ion-item>
     <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="removePlaylist(playlist.id)">Remove</ion-item-option>
+      <ion-item-option color="danger" (click)="confirmRemovePlaylist(playlist.id)">Remove</ion-item-option>
     </ion-item-options>
   </ion-item-sliding>
 </ion-list>
+
+<ng-template #elseBlock>
+  <ion-item>
+    <ion-label>Your playlists list is empty</ion-label>
+  </ion-item>
+</ng-template>

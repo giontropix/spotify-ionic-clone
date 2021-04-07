@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PlaylistsService} from '../../../services/playlists.service';
 import {Song} from '../../../models/Song';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController} from '@ionic/angular';
 import {SongsService} from '../../../services/songs.service';
 import {UsersService} from '../../../services/users.service';
 import {presentToast, startPlaying} from '../../../commons/utils';
@@ -17,7 +17,8 @@ export class ModalPlaylistComponent implements OnInit {
     private playlistsService: PlaylistsService,
     public modalController: ModalController,
     private songsService: SongsService,
-    private usersService: UsersService
+    private usersService: UsersService,
+    public alertController: AlertController
   ) { }
 
   @Input() userId: string;
@@ -27,16 +28,26 @@ export class ModalPlaylistComponent implements OnInit {
 
   getUserPlaylistSongs = async () => this.userPlaylistSongs = await this.playlistsService.getPlaylistSong(this.userId, this.playlistId);
 
-  /*increaseView = async (songId: string) => await this.usersService.increaseSongView(this.userId, {song_id: songId});
-
-  startPlaying = async (song: Song) => {
-    if (this.songsService.isListening) {
-      return presentToast('Please stop the current song before change music!');
-    }
-    this.songsService.songToPlay = song;
-    this.songsService.isListening = true;
-    await this.increaseView(song._id);
-  }*/
+  async confirmRemoveSong(songId: string, songTitle: string) {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Confirm!',
+      message: `Do you really want to <strong>delete</strong> ${songTitle}?`,
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.deleteSong(songId, songTitle);
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
 
   startPlaying = (song: Song) => startPlaying(this.songsService, this.usersService, song);
 

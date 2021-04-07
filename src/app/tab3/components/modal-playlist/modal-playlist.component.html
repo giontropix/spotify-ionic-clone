@@ -15,7 +15,7 @@
           <ion-label>{{song._title}}</ion-label>
         </ion-item>
         <ion-item-options>
-          <ion-item-option color="danger" (click)="deleteSong(song._id, song._title)">Remove</ion-item-option>
+          <ion-item-option color="danger" (click)="confirmRemoveSong(song._id, song._title)">Remove</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>

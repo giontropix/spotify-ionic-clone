@@ -3,16 +3,16 @@
                placeholder="Search" animated>
 </ion-searchbar>
 
-<div *ngIf="songs">
+<div *ngIf="songs; else elseBlock">
   <ion-list>
     <ion-item-sliding *ngFor="let song of songs">
-    <ion-item (click)="startPlaying(song)">
-      <ion-label>
-        <h2>{{song._title}} </h2>
-        <h5>{{song._genre}}</h5>
-        <h3>{{song._artist}}</h3>
-      </ion-label>
-    </ion-item>
+      <ion-item (click)="startPlaying(song)">
+        <ion-label>
+          <h2>{{song._title}} </h2>
+          <h5>{{song._genre}}</h5>
+          <h3>{{song._artist}}</h3>
+        </ion-label>
+      </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="this.addToPlaylists(song)">Add to</ion-item-option>
       </ion-item-options>
@@ -27,3 +27,11 @@
   </ion-infinite-scroll>
 
 </div>
+
+<ng-template #elseBlock>
+  <ion-item>
+    <ion-label>
+      Error loading songs, please wait or reload this page
+    </ion-label>
+  </ion-item>
+</ng-template>
