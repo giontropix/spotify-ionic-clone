@@ -9,7 +9,7 @@
       <ion-badge color="primary">{{playlist.length}}</ion-badge>
     </ion-item>
     <ion-item-options side="end">
-      <ion-item-option color="danger" (click)="confirmRemovePlaylist(playlist.id)">Remove</ion-item-option>
+      <ion-item-option color="danger" (click)="confirmRemovePlaylist(playlist.id, playlist.title)">Remove</ion-item-option>
     </ion-item-options>
   </ion-item-sliding>
 </ion-list>

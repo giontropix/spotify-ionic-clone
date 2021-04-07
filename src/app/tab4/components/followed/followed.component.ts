@@ -41,7 +41,7 @@ export class FollowedComponent implements OnInit {
       message: `Do you really want to <strong>remove</strong> ${friendToUnfollowName} from your friends list?`,
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
         }, {

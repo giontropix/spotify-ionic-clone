@@ -35,7 +35,7 @@ export class ModalPlaylistComponent implements OnInit {
       message: `Do you really want to <strong>delete</strong> ${songTitle}?`,
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
         }, {

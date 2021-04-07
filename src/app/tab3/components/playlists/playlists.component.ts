@@ -37,14 +37,14 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     return await modal.present();
   }
 
-  async confirmRemovePlaylist(playlistId: string) {
+  async confirmRemovePlaylist(playlistId: string, playlistName: string) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Confirm!',
-      message: 'Do you really want to <strong>delete</strong> this playlist?',
+      message: `Do you really want to <strong>delete</strong> ${playlistName}?`,
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
         }, {
