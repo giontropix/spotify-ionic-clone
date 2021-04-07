@@ -8,7 +8,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content *ngIf='this.getAll'>
+  <ion-content *ngIf='this.getAll; else elseBlock'>
     <ion-list>
       <ion-item-sliding *ngFor='let user of this.users'>
         <ion-item>
@@ -32,4 +32,12 @@
       </ion-item-sliding>
     </ion-list>
   </ion-content>
+
+  <ng-template #elseBlock>
+    <ion-item>
+      <ion-label>
+        Error loading users, please wait or reload this page
+      </ion-label>
+    </ion-item>
+  </ng-template>
 </div>

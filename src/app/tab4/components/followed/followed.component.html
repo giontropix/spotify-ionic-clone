@@ -8,7 +8,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content *ngIf='this.allFollowed'>
+  <ion-content *ngIf='this.allFollowed; else elseNoFollowed'>
     <ion-list>
       <ion-item-sliding *ngFor='let followed of this.allFollowed'>
         <ion-item>
@@ -27,4 +27,12 @@
       </ion-item-sliding>
     </ion-list>
   </ion-content>
+
+  <ng-template #elseNoFollowed>
+    <ion-item>
+      <ion-label>
+        Your friends list is empty, start to add new friends now!
+      </ion-label>
+    </ion-item>
+  </ng-template>
 </div>
