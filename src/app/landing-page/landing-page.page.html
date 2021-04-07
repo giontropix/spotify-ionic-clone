@@ -1,20 +1,17 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Olorefy
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Olorefy</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-grid fixed="true" >
 
-  <ion-grid fixed="true" class="buttons-position">
-    <ion-row>
+    <ion-content>
+      <video autoplay muted loop src="../assets/guitarnoaudio.mp4"></video>
+    </ion-content>
+
+    <ion-row class="title-position">
+      <ion-col>
+        <ion-title size="large">Olorefy</ion-title>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="buttons-position">
       <ion-col class="ion-align-self-center">
         <ion-button routerLink="/registration" expand="block" color="primary">Register</ion-button>
 
@@ -25,6 +22,7 @@
         <ion-button routerLink="/login" expand="block" color="danger">Sign In</ion-button>
       </ion-col>
     </ion-row>
+
   </ion-grid>
 
   <router-outlet></router-outlet>
