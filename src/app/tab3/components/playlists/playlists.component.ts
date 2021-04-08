@@ -97,7 +97,6 @@ export class PlaylistsComponent implements OnInit, OnChanges {
   async ngOnInit() {
     await this.getAllUserPlaylists();
     await this.getUserPlaylistsToShow();
-    console.log(this.allUserPlaylists);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
