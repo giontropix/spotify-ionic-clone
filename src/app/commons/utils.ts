@@ -2,6 +2,8 @@ import {ToastController} from '@ionic/angular';
 import {Song} from '../models/Song';
 import {SongsService} from '../services/songs.service';
 import {UsersService} from '../services/users.service';
+import {AuthService} from '../services/auth.service';
+import {Router} from '@angular/router';
 
 const toastController: ToastController = new ToastController();
 export const API_BASE_URL_USER = 'http://localhost:3000/users';
@@ -26,4 +28,37 @@ export const startPlaying = async (songsService: SongsService, usersService: Use
   songsService.songToPlay = song;
   songsService.isListening = true;
   await increaseSongView(usersService, song._id);
+};
+
+export const goToProfileIfJustLogged = async (authService: AuthService, router: Router) => {
+  let apiAnswer: any;
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
+  if (accessToken && refreshToken) {
+    try {
+      apiAnswer = await authService.check(accessToken, refreshToken);
+    } catch (err) {
+      return presentToast(err);
+    }
+    localStorage.setItem('access_token', apiAnswer.access_token);
+    localStorage.setItem('refresh_token', apiAnswer.refresh_token);
+    return router.navigateByUrl(`tabs/tab1`);
+  }
+};
+
+export const goToIndexIfNotLogged = async (authService: AuthService, router: Router) => {
+  let apiAnswer: any;
+  const accessToken = localStorage.getItem('access_token');
+  const refreshToken = localStorage.getItem('refresh_token');
+  if (!accessToken || !refreshToken || accessToken === '' || refreshToken === '') {
+    return router.navigateByUrl('/welcome');
+  }
+  try {
+    apiAnswer = await authService.check(accessToken, refreshToken);
+  } catch (err) {
+    return router.navigate(['/welcome']);
+  }
+  localStorage.setItem('access_token', apiAnswer.access_token);
+  localStorage.setItem('refresh_token', apiAnswer.refresh_token);
+  return;
 };

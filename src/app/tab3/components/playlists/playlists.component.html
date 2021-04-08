@@ -18,7 +18,7 @@
   </ion-item-sliding>
 </ion-list>
 
-<ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataForInfiniteScroll($event)">
+<ion-infinite-scroll threshold="100px" (ionInfinite)="infiniteScrollPlaylists($event)">
   <ion-infinite-scroll-content
     loadingSpinner="bubbles"
     loadingText="Loading more data...">
@@ -30,3 +30,4 @@
     <ion-label>Your playlists list is empty</ion-label>
   </ion-item>
 </ng-template>
+

@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {presentToast} from '../commons/utils';
+import {goToProfileIfJustLogged, presentToast} from '../commons/utils';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +57,8 @@ export class LoginPage implements OnInit {
     await this.goToUser();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await goToProfileIfJustLogged(this.authService, this.router);
     this.submitLogin = false;
     this.group = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],

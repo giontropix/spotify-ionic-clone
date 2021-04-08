@@ -29,20 +29,6 @@ export class Tab1Page {
 
   getLastInsertedSongs = async () => this.lastInsertedSongs = await this.songsService.all('', '', '', 'last');
 
-  async openFirst() {
-    await this.menu.enable(true, 'first');
-    await this.menu.open('first');
-  }
-
-  async openEnd() {
-    await this.menu.open('end');
-  }
-
-  async openCustom() {
-    await this.menu.enable(true, 'custom');
-    await this.menu.open('custom');
-  }
-
   async ionViewWillEnter() {
     await this.getTopRankingSongs();
     await this.getUserSuggestedSongs();

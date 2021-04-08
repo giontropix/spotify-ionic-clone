@@ -28,7 +28,7 @@ export class PlaylistsComponent implements OnInit, OnChanges {
   @Input() reloadPlaylistBecauseDelete;
   @Output() emit: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  loadDataForInfiniteScroll = (event) => {
+  infiniteScrollPlaylists = (event) => {
     return setTimeout(async () => {
       event.target.complete();
       const playlistToPush = await this.playlistsService.all(USER_ID, String(this.userPlaylistToShow.length), String(this.playlistsLimit));
@@ -85,13 +85,13 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     await this.playlistsService.create(USER_ID, {name: this.newPlaylistName});
     await presentToast('Playlist added!');
     this.newPlaylistName = '';
-    await this.getAllUserPlaylists();
+    await this.getUserPlaylistsToShow();
   }
 
   removePlaylist = async (playlistId: string) => {
     await this.playlistsService.delete(USER_ID, playlistId);
     await presentToast('Playlist removed', 3000);
-    await this.getAllUserPlaylists();
+    await this.getUserPlaylistsToShow();
   }
 
   async ngOnInit() {

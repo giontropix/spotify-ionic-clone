@@ -21,7 +21,7 @@ export class FollowedComponent implements OnInit {
   followedToShow: Follower[] = [];
   allFollowed: Follower[] = [];
   followedOffset = 0;
-  followedLimit = 5;
+  followedLimit = 15;
   isSearching = false;
   search = '';
 

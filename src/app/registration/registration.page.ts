@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../services/auth.service';
-import {presentToast} from '../commons/utils';
+import {goToProfileIfJustLogged, presentToast} from '../commons/utils';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -11,8 +12,10 @@ import {presentToast} from '../commons/utils';
 export class RegistrationPage implements OnInit {
 
   constructor(
-    public formBuilder: FormBuilder,
-    public authService: AuthService) { }
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   group: FormGroup;
   submitRegistration: boolean;
@@ -57,7 +60,8 @@ export class RegistrationPage implements OnInit {
     return presentToast(`User ${this.group.controls.user_name.value} created!`);
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    await goToProfileIfJustLogged(this.authService, this.router);
     this.submitRegistration = false;
     this.group = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],
@@ -66,5 +70,4 @@ export class RegistrationPage implements OnInit {
       sex: ['M', [Validators.required]]
     });
   }
-
 }
