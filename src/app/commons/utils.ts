@@ -6,8 +6,13 @@ import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 
 const toastController: ToastController = new ToastController();
-export const API_BASE_URL_USER = 'http://localhost:3000/users';
+
+// INDIRIZZO SENZA TUNNELING
 export const API_BASE_URL = 'http://localhost:3000';
+// INDIRIZZO IN CASO DI TUNNELING
+// export const API_BASE_URL = 'http://localhost:3000';
+export const API_BASE_URL_USER = `${API_BASE_URL}/users`;
+
 export const USER_ID = localStorage.getItem('user_id');
 
 export const presentToast = async (message: string, duration = 1000) => {

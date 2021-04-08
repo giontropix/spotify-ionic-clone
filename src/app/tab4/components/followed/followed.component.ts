@@ -73,7 +73,7 @@ export class FollowedComponent implements OnInit {
 
   async confirmRemoveFollowed(friendToUnfollowId: string, friendToUnfollowName: string) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
+      cssClass: 'modal-followed',
       header: 'Confirm!',
       message: `Do you really want to <strong>remove</strong> ${friendToUnfollowName} from your friends list?`,
       buttons: [
