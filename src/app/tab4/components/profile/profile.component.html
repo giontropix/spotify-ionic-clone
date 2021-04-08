@@ -1,38 +1,38 @@
 <ion-content fullscreen *ngIf="this.user">
-  <ion-card class="profile-card-height">
-    <img *ngIf="user._sex === 'F'; else elseBlock" src="../../../../assets/beautiful.jpg" alt=""/>
-    <ng-template #elseBlock>
-      <img src="../../../../assets/stark.jpg" alt=""/>
-    </ng-template>
-    <ion-card-header>
-      <ion-card-title>{{ user._user_name }}</ion-card-title>
-      <ion-card-subtitle>{{ user._mail }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+    <ion-card class="profile-card-height">
+        <img class="ion-img" *ngIf="user._sex === 'F'; else elseBlock" src="../../../../assets/beautiful.jpg" alt="" />
+        <ng-template #elseBlock>
+            <img class="ion-img" src="../../../../assets/stark.jpg" alt="" />
+        </ng-template>
+        <ion-card-header class="ion-card-header">
+            <ion-card-title class="ion-card-title-and-subtitle">{{ user._user_name }}</ion-card-title>
+            <ion-card-subtitle class="ion-card-title-and-subtitle">{{ user._mail }}</ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
 
-  <ion-grid>
-    <ion-row class="ion-justify-content-evenly">
+    <ion-grid class="ion-grid">
+        <ion-row class="ion-justify-content-evenly ion-row">
 
-      <ion-col size="8">
-        <ion-fab>
-          <ion-fab-button>
-            <ion-icon name="share-social-outline"></ion-icon>
-          </ion-fab-button>
-          <ion-fab-list side="end">
-            <ion-fab-button (click)="openListOfFollowed()">
-              <ion-icon name="people-outline"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button (click)="openListOfUsers()">
-              <ion-icon name="person-add-outline"></ion-icon>
-            </ion-fab-button>
-          </ion-fab-list>
-        </ion-fab>
-      </ion-col>
+            <ion-col class="ion-col" size="8">
+                <ion-fab class="social-margin">
+                    <ion-fab-button>
+                        <ion-icon name="share-social-outline"></ion-icon>
+                    </ion-fab-button>
+                    <ion-fab-list side="end ">
+                        <ion-fab-button (click)="openListOfFollowed()">
+                            <ion-icon name="people-outline"></ion-icon>
+                        </ion-fab-button>
+                        <ion-fab-button (click)="openListOfUsers()">
+                            <ion-icon name="person-add-outline"></ion-icon>
+                        </ion-fab-button>
+                    </ion-fab-list>
+                </ion-fab>
+            </ion-col>
 
-      <ion-col size="4">
-        <ion-button color="danger" (click)="logout()">Logout</ion-button>
-      </ion-col>
+            <ion-col class="ion-col-logout" size="4">
+                <ion-button class="ion-logout-button" color="danger " (click)="logout()">Logout</ion-button>
+            </ion-col>
 
-    </ion-row>
-  </ion-grid>
+        </ion-row>
+    </ion-grid>
 </ion-content>

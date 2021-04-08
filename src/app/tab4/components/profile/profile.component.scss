@@ -1,9 +1,132 @@
-@media only screen and (max-width: 500px) {
-  .profile-card-height {
-    height: 75%;
-  }
+@media only screen and (max-width: 320) {
+    .profile-card-height {
+        height: 70%;
+    }
+    .ion-logout-button {
+        margin-left: 4px;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+    .profile-card-height {
+        height: 70%;
+        display: flex;
+        background-color: #968b8815;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+    .social-margin {
+        margin-left: -14px;
+    }
+    .ion-card-header {
+        width: 100%;
+        height: 100px;
+        text-align: center;
+    }
+    .ion-img {
+        width: 40%;
+        height: 32%;
+        border-radius: 50%;
+    }
+    .ion-grid {
+        background-color: #afa7a730;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: 70px;
+    }
+    .ion-col {
+        height: 100%;
+        margin-left: 0px;
+    }
+    .ion-row {
+        height: 100%;
+    }
+    .ion-col-logout {
+        height: 100%;
+        margin-right: -15px;
+    }
+    .ion-card-title-and-subtitle {
+        width: 100%;
+        text-align: center;
+    }
+    .ion-logout-button {
+        margin-left: 4px;
+    }
+}
+
+@media only screen and ( min-width: 500px) {
+    .profile-card-height {
+        height: 45%;
+        display: flex;
+        background-color: #968b8815;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-bottom: 2px;
+        margin-top: 2px;
+    }
+    .social-margin {
+        margin-left: -14px;
+    }
+    .ion-card-header {
+        width: 30%;
+        height: 58px;
+        text-align: center;
+    }
+    .ion-img {
+        width: 10%;
+        height: 47%;
+        border-radius: 50%;
+    }
+    .ion-grid {
+        background-color: white;
+        margin-left: 10px;
+        margin-right: 10px;
+        height: 50px;
+    }
+    .ion-card-title-and-subtitle {
+        width: 100%;
+        text-align: center;
+        font-size: 9px;
+    }
+    .ion-col {
+        height: 100%;
+        margin-left: 0px;
+    }
+    .ion-row {
+        height: 100%;
+    }
+    .ion-col-logout {
+        height: 100%;
+        align-items: right;
+        display: flex;
+        justify-content: end;
+    }
+    .ion-logout-button {
+        margin-left: 100px;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .ion-img {
+        width: 10%;
+        height: 47%;
+        border-radius: 50%;
+    }
+    .ion-col-logout {
+        height: 100%;
+        align-items: end;
+        display: flex;
+        justify-content: right;
+    }
+    .ion-logout-button {
+        margin-left: 150px;
+    }
 }
 
 .name-padding {
-  padding-bottom: 4px;
+    padding-bottom: 4px;
 }
