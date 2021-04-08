@@ -16,7 +16,6 @@ export class SongsListComponent implements OnInit {
 
   constructor(
     public songsService: SongsService,
-
     public actionSheetController: ActionSheetController,
     public playlistsService: PlaylistsService,
     public usersService: UsersService

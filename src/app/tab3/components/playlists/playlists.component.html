@@ -1,11 +1,11 @@
-<ion-list *ngIf="this.userPlaylists; else elseBlock">
-  <ion-item>
-    <ion-icon (click)="addPlaylist()" name="add-outline"></ion-icon>
+<ion-list *ngIf="this.allUserPlaylists; else elseBlock">
+  <ion-item color="light" lines="full">
+    <ion-icon size="large" class="add-playlist-padding" (click)="addPlaylist()" name="add-outline"></ion-icon>
     <ion-input [(ngModel)]="this.newPlaylistName" placeholder="playlist's name"></ion-input>
   </ion-item>
-  <ion-item-sliding *ngFor="let playlist of this.userPlaylists">
-    <ion-item>
-      <ion-label (click)="this.showPlaylist(playlist.id, playlist.title)">{{playlist.title}}</ion-label>
+  <ion-item-sliding *ngFor="let playlist of this.userPlaylistToShow">
+    <ion-item lines="full">
+      <ion-label class="playlist-padding" (click)="this.showPlaylist(playlist.id, playlist.title)">{{playlist.title}}</ion-label>
       <ion-badge color="primary">{{playlist.length}}</ion-badge>
     </ion-item>
     <ion-item-options side="end">
@@ -13,6 +13,13 @@
     </ion-item-options>
   </ion-item-sliding>
 </ion-list>
+
+<ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataForInfiniteScroll($event)">
+  <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
 
 <ng-template #elseBlock>
   <ion-item>

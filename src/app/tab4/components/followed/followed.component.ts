@@ -52,7 +52,6 @@ export class FollowedComponent implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
 

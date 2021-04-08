@@ -16,13 +16,28 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     private playlistsService: PlaylistsService,
     public modalController: ModalController,
     public alertController: AlertController
-  ) {}
+  ) {
+  }
 
-  userPlaylists: UserPlaylist[];
+  allUserPlaylists: UserPlaylist[];
+  userPlaylistToShow: UserPlaylist[];
   newPlaylistName = '';
+  playlistsLimit = 9;
+  playlistsOffset = 0;
   @Input() reloadPlaylist;
   @Input() reloadPlaylistBecauseDelete;
   @Output() emit: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  loadDataForInfiniteScroll = (event) => {
+    return setTimeout(async () => {
+      event.target.complete();
+      const playlistToPush = await this.playlistsService.all(USER_ID, String(this.userPlaylistToShow.length), String(this.playlistsLimit));
+      this.userPlaylistToShow = [...this.userPlaylistToShow, ...playlistToPush];
+      if (this.userPlaylistToShow.length === this.allUserPlaylists.length) {
+        event.target.disabled = true;
+      }
+    }, 500);
+  }
 
   async showPlaylist(playlistId: string, playlistTitle) {
     const modal = await this.modalController.create({
@@ -58,39 +73,50 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     await alert.present();
   }
 
-  getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(USER_ID);
+  getAllUserPlaylists = async () => this.allUserPlaylists = await this.playlistsService.all(USER_ID);
+
+  getUserPlaylistsToShow = async () =>
+    this.userPlaylistToShow = await this.playlistsService.all(USER_ID, String(this.playlistsOffset), String(this.playlistsLimit))
 
   addPlaylist = async () => {
-    if (this.newPlaylistName === '') { return presentToast('Compile input field first'); }
+    if (this.newPlaylistName === '') {
+      return presentToast('Compile input field first');
+    }
     await this.playlistsService.create(USER_ID, {name: this.newPlaylistName});
     await presentToast('Playlist added!');
     this.newPlaylistName = '';
-    await this.getUserPlaylists();
+    await this.getAllUserPlaylists();
   }
 
   removePlaylist = async (playlistId: string) => {
     await this.playlistsService.delete(USER_ID, playlistId);
     await presentToast('Playlist removed', 3000);
-    await this.getUserPlaylists();
+    await this.getAllUserPlaylists();
   }
 
   async ngOnInit() {
-    await this.getUserPlaylists();
+    await this.getAllUserPlaylists();
+    await this.getUserPlaylistsToShow();
+    console.log(this.allUserPlaylists);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.reloadPlaylist &&
       changes.reloadPlaylist.previousValue !== changes.reloadPlaylist.currentValue) {
-      this.getUserPlaylists().then(() => {
-        this.playlistsService.isAddingSongtoPlaylist = false;
-        return;
+      this.getAllUserPlaylists().then(() => {
+        this.getUserPlaylistsToShow().then(() => {
+          this.playlistsService.isAddingSongtoPlaylist = false;
+          return;
+        });
       });
     }
     if (changes.reloadPlaylistBecauseDelete &&
       changes.reloadPlaylistBecauseDelete.previousValue !== changes.reloadPlaylistBecauseDelete.currentValue) {
-      this.getUserPlaylists().then(() => {
-        this.playlistsService.isRemovingSongfromPlaylist = false;
-        return;
+      this.getAllUserPlaylists().then(() => {
+        this.getUserPlaylistsToShow().then(() => {
+          this.playlistsService.isRemovingSongfromPlaylist = false;
+          return;
+        });
       });
     }
   }
