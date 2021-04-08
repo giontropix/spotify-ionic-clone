@@ -49,11 +49,7 @@ export class UsersListComponent implements OnInit {
     }
   }
 
-  getSearch = async () => {
-    console.log(this.search);
-    this.usersToShow = await this.userService.all(this.search, String(this.usersOffset), String(this.usersLimit));
-    console.log(this.usersToShow);
-  }
+  getSearch = async () => this.usersToShow = await this.userService.all(this.search, String(this.usersOffset), String(this.usersLimit));
 
   stopSearchingIfEmptyField = async () => {
     if (this.search === '') {

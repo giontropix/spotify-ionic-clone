@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Follower } from '../models/Follower';
-import { API_BASE_URL } from '../commons/utils';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Follower} from '../models/Follower';
+import {API_BASE_URL} from '../commons/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class SocialService {
 
   constructor(private http: HttpClient) { }
 
-  allFollowed = (id: string, offset: string = '', limit: string = ''): Promise<Follower[]> =>
-    this.http.get<Follower[]>(`${API_BASE_URL}/users/${id}/followed?offset=${offset}&limit=${limit}`).toPromise()
+  allFollowed = (id: string, filter: string = '', offset: string = '', limit: string = ''): Promise<Follower[]> =>
+    this.http.get<Follower[]>(`${API_BASE_URL}/users/${id}/followed?filter=${filter}&offset=${offset}&limit=${limit}`).toPromise()
 
   allFollowers = (id: string, offset: string = '', limit: string = ''): Promise<Follower[]> =>
     this.http.get<Follower[]>(`${API_BASE_URL}/users/${id}/followers?offset=${offset}&limit=${limit}`).toPromise()

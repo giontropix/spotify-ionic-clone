@@ -12,24 +12,61 @@ import {presentToast, USER_ID} from '../../../commons/utils';
 export class FollowedComponent implements OnInit {
 
   constructor(
-    private friendsService: SocialService,
+    private socialService: SocialService,
     public modalController: ModalController,
     public alertController: AlertController
   ) {
   }
 
-  followed: Follower[] = [];
+  followedToShow: Follower[] = [];
   allFollowed: Follower[] = [];
   followedOffset = 0;
   followedLimit = 5;
+  isSearching = false;
+  search = '';
 
-  getAllFollowed = async () => this.allFollowed = await this.friendsService.allFollowed(USER_ID);
+  infiniteScrollSongs = (event) => {
+    if (!this.isSearching) {
+      return setTimeout(async () => {
+        event.target.complete();
+        const songsToPush = await this.socialService.allFollowed(USER_ID, '', String(this.followedToShow.length),
+          String(this.followedLimit));
+        this.followedToShow = [...this.followedToShow, ...songsToPush];
+        if (this.followedToShow.length === this.allFollowed.length) {
+          event.target.disabled = true;
+        }
+      }, 500);
+    } else {
+      this.getSearch().then(() => setTimeout(async () => {
+        event.target.complete();
+        const songsToPush = await this.socialService.allFollowed(USER_ID, this.search, String(this.followedToShow.length),
+          String(this.followedLimit));
+        this.followedToShow = [...this.followedToShow, ...songsToPush];
+        if (this.followedToShow.length === this.allFollowed.length) {
+          event.target.disabled = true;
+        }
+      }, 500));
+    }
+  }
 
-  getFollowed = async () => this.followed =
-    await this.friendsService.allFollowed(USER_ID, String(this.followedOffset), String(this.followedLimit))
+  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(USER_ID);
+
+  getFollowedToShow = async () => this.followedToShow =
+    await this.socialService.allFollowed(USER_ID, '', String(this.followedOffset), String(this.followedLimit))
+
+  getSearch = async () => this.followedToShow = await this.socialService.allFollowed(USER_ID, this.search, String(this.followedOffset),
+    String(this.followedLimit))
+
+  stopSearchingIfEmptyField = async () => {
+    console.log(this.search);
+    if (this.search === '') {
+      this.isSearching = false;
+      await this.getFollowedToShow();
+    }
+  }
 
   removeFollowed = async (friendToUnfollowId: string, friendToUnfollowName: string) => {
-    await this.friendsService.remove(USER_ID, friendToUnfollowId);
+    await this.socialService.remove(USER_ID, friendToUnfollowId);
     await presentToast(`${friendToUnfollowName} removed from followed list!`);
     await this.getAllFollowed();
   }
@@ -63,6 +100,6 @@ export class FollowedComponent implements OnInit {
 
   async ngOnInit() {
     await this.getAllFollowed();
-    await this.getFollowed();
+    await this.getFollowedToShow();
   }
 }

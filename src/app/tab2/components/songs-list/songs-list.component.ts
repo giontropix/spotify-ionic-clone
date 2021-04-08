@@ -19,8 +19,7 @@ export class SongsListComponent implements OnInit {
     public actionSheetController: ActionSheetController,
     public playlistsService: PlaylistsService,
     public usersService: UsersService
-  ) {
-  }
+  ) {}
 
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @Input() songToPlayFromPlaylist: Song | undefined;
@@ -28,10 +27,10 @@ export class SongsListComponent implements OnInit {
   songsToShow: Song[] = [];
   allSearch: Song[] = [];
   allSongs: Song[] = [];
+  userPlaylists: UserPlaylist[];
   isSearching = false;
   songsOffset = 0;
   songsLimit = 9;
-  userPlaylists: UserPlaylist[];
 
   addToPlaylists = async (song: Song) => {
     await this.getUserPlaylists();
@@ -89,8 +88,6 @@ export class SongsListComponent implements OnInit {
   getUserPlaylists = async () => this.userPlaylists = await this.playlistsService.all(USER_ID);
 
   getAllSongs = async () => this.allSongs = await this.songsService.all();
-
-  // getAllSearch = async () => this.allSearch = await this.songsService.all(this.search);
 
   getSongsToShow = async () => this.songsToShow = await this.songsService.all('', String(this.songsOffset),
     String(this.songsLimit))

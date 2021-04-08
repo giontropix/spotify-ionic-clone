@@ -8,9 +8,14 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-searchbar [(ngModel)]="this.search" name="search" debounce="500" showCancelButton="focus"
+                 (ionChange)="this.isSearching=true; getSearch(); stopSearchingIfEmptyField()"
+                 placeholder="Search" animated>
+  </ion-searchbar>
+
   <ion-content *ngIf='this.allFollowed; else elseNoFollowed'>
     <ion-list>
-      <ion-item-sliding *ngFor='let followed of this.allFollowed'>
+      <ion-item-sliding *ngFor='let followed of this.followedToShow'>
         <ion-item>
           <ion-avatar slot="start">
             <img *ngIf="followed._sex === 'F'; else elseMale" src="../../../../assets/beautiful.jpg" alt="user-icon">
@@ -18,7 +23,9 @@
               <img src="../../../../assets/stark.jpg" alt="user-icon">
             </ng-template>
           </ion-avatar>
-          <ion-label>{{followed._user_name}}</ion-label>
+          <ion-label>
+            <h1>{{followed._user_name}}</h1>
+          </ion-label>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option (click)="this.confirmRemoveFollowed(followed._id,followed._user_name)" color="danger">Delete
@@ -26,6 +33,14 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="infiniteScrollSongs($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </ion-content>
 
   <ng-template #elseNoFollowed>
