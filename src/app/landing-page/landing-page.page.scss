@@ -67,3 +67,10 @@ video {
   z-index: -100;
   transform: translateX(-50%) translateY(-50%);
 }
+
+
+.transparentbutton {
+  --ion-color-base: unset !important;
+  border: solid 2px;
+  border-radius: 5%;
+}
