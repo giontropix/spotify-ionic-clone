@@ -25,7 +25,7 @@ export class SongsListComponent implements OnInit {
   @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   @Input() songToPlayFromPlaylist: Song | undefined;
   search = '';
-  songs: Song[] = [];
+  songsToShow: Song[] = [];
   allSearch: Song[] = [];
   allSongs: Song[] = [];
   isSearching = false;
@@ -60,24 +60,24 @@ export class SongsListComponent implements OnInit {
     await actionSheet.present();
   }
 
-  loadDataForInfiniteScroll = (event) => {
+  infiniteScrollSongs = (event) => {
     if (!this.isSearching) {
       return setTimeout(async () => {
         event.target.complete();
-        const songsToPush = await this.songsService.all('', String(this.songs.length),
+        const songsToPush = await this.songsService.all('', String(this.songsToShow.length),
           String(this.songsLimit));
-        this.songs = [...this.songs, ...songsToPush];
-        if (this.songs.length === this.allSongs.length) {
+        this.songsToShow = [...this.songsToShow, ...songsToPush];
+        if (this.songsToShow.length === this.allSongs.length) {
           event.target.disabled = true;
         }
       }, 500);
     } else {
       this.getSearch().then(() => setTimeout(async () => {
         event.target.complete();
-        const songsToPush = await this.songsService.all(this.search, String(this.songs.length),
+        const songsToPush = await this.songsService.all(this.search, String(this.songsToShow.length),
           String(this.songsLimit));
-        this.songs = [...this.songs, ...songsToPush];
-        if (this.songs.length === this.allSearch.length) {
+        this.songsToShow = [...this.songsToShow, ...songsToPush];
+        if (this.songsToShow.length === this.allSearch.length) {
           event.target.disabled = true;
         }
       }, 500));
@@ -90,24 +90,24 @@ export class SongsListComponent implements OnInit {
 
   getAllSongs = async () => this.allSongs = await this.songsService.all();
 
-  getAllSearch = async () => this.allSearch = await this.songsService.all(this.search);
+  // getAllSearch = async () => this.allSearch = await this.songsService.all(this.search);
 
-  getSongs = async () => this.songs = await this.songsService.all('', String(this.songsOffset),
+  getSongsToShow = async () => this.songsToShow = await this.songsService.all('', String(this.songsOffset),
     String(this.songsLimit))
 
-  getSearch = async () => this.songs = await this.songsService.all(this.search, String(this.songsOffset),
+  getSearch = async () => this.songsToShow = await this.songsService.all(this.search, String(this.songsOffset),
     String(this.songsLimit))
 
   stopSearchingIfEmptyField = async () => {
     if (this.search === '') {
       this.isSearching = false;
-      await this.getSongs();
+      await this.getSongsToShow();
     }
   }
 
   async ngOnInit() {
     await this.getAllSongs();
-    await this.getSongs();
+    await this.getSongsToShow();
     await this.getUserPlaylists();
   }
 }

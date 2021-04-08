@@ -3,14 +3,14 @@
                placeholder="Search" animated>
 </ion-searchbar>
 
-<div *ngIf="songs; else elseBlock">
+<div *ngIf="songsToShow; else elseBlock">
   <ion-list>
-    <ion-item-sliding *ngFor="let song of songs">
+    <ion-item-sliding *ngFor="let song of songsToShow">
       <ion-item (click)="startPlaying(song)">
         <ion-label>
-          <h2>{{song._title}} </h2>
+          <h2 class="song-title">{{song._title}} </h2>
           <h5>{{song._genre}}</h5>
-          <h3>{{song._artist}}</h3>
+          <h3 class="song-artist">{{song._artist}}</h3>
         </ion-label>
       </ion-item>
       <ion-item-options side="end">
@@ -19,7 +19,7 @@
     </ion-item-sliding>
   </ion-list>
 
-  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadDataForInfiniteScroll($event)">
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="infiniteScrollSongs($event)">
     <ion-infinite-scroll-content
       loadingSpinner="bubbles"
       loadingText="Loading more data...">

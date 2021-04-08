@@ -22,8 +22,8 @@ export class UsersService {
     this.myUserID = value;
   }
 
-  all = (): Promise<User[]> =>
-    this.http.get<User[]>(API_BASE_URL_USER).toPromise()
+  all = (filter: string = '', offset: string = '', limit: string = '', option: string = ''): Promise<User[]> =>
+    this.http.get<User[]>(`${API_BASE_URL_USER}?filter=${filter}&offset=${offset}&limit=${limit}&option=${option}`).toPromise()
 
   get = (id: string): Promise<User> =>
     this.http.get<User>(`${API_BASE_URL_USER}/${id}`).toPromise()

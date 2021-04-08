@@ -12,7 +12,9 @@
     <ion-list *ngIf="this.userPlaylistSongs">
       <ion-item-sliding *ngFor="let song of this.userPlaylistSongs">
         <ion-item (click)="startPlaying(song)">
-          <ion-label>{{song._title}}</ion-label>
+          <ion-label>
+            <h1 class="playlist-padding">{{song._title}}</h1>
+          </ion-label>
         </ion-item>
         <ion-item-options>
           <ion-item-option color="danger" (click)="confirmRemoveSong(song._id, song._title)">Remove</ion-item-option>

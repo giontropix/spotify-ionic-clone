@@ -8,9 +8,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-content *ngIf='this.getAll; else elseBlock'>
+  <ion-searchbar [(ngModel)]="this.search" name="search" debounce="500" showCancelButton="focus"
+                 (ionChange)="this.isSearching=true; getSearch(); stopSearchingIfEmptyField()"
+                 placeholder="Search users" animated>
+  </ion-searchbar>
+
+  <ion-content *ngIf='this.usersToShow; else elseBlock'>
     <ion-list>
-      <ion-item-sliding *ngFor='let user of this.users'>
+      <ion-item-sliding *ngFor='let user of this.usersToShow'>
         <ion-item>
           <ion-avatar slot="start">
             <img *ngIf="user._sex === 'F'; else elseMale" src="../../../../assets/beautiful.jpg" alt="user-icon">
@@ -18,7 +23,10 @@
               <img src="../../../../assets/stark.jpg" alt="user-icon">
             </ng-template>
           </ion-avatar>
-          <ion-label>{{user._user_name}}</ion-label>
+          <ion-label>
+            <h1>{{user._user_name}}</h1>
+            <h3 class="mail-style">{{user._mail}}</h3>
+          </ion-label>
         </ion-item>
         <ion-item-options side="end">
           <ion-item-option *ngIf="!removeJustFollowed(user._id); else elseBlock"
@@ -31,6 +39,14 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="infiniteScrollUsers($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
   </ion-content>
 
   <ng-template #elseBlock>

@@ -17,10 +17,54 @@ export class UsersListComponent implements OnInit {
   constructor(private userService: UsersService, public modalController: ModalController, private socialService: SocialService) {
   }
 
-  users: User[] = [];
+  allUsers: User[] = [];
+  usersToShow: User[] = [];
   allFollowed: Follower[] = [];
+  usersOffset = 0;
+  usersLimit = 15;
+  isSearching = false;
+  search = '';
 
-  getAll = async () => this.users = await this.userService.all();
+  infiniteScrollUsers = (event) => {
+    if (!this.isSearching) {
+      return setTimeout(async () => {
+        event.target.complete();
+        const usersToPush = await this.userService.all('', String(this.usersToShow.length),
+          String(this.usersLimit));
+        this.usersToShow = [...this.usersToShow, ...usersToPush];
+        if (this.usersToShow.length === this.allUsers.length) {
+          event.target.disabled = true;
+        }
+      }, 500);
+    } else {
+      this.getSearch().then(() => setTimeout(async () => {
+        event.target.complete();
+        const usersToPush = await this.userService.all(this.search, String(this.usersToShow.length),
+          String(this.usersLimit));
+        this.usersToShow = [...this.usersToShow, ...usersToPush];
+        if (this.usersToShow.length === this.allUsers.length) {
+          event.target.disabled = true;
+        }
+      }, 500));
+    }
+  }
+
+  getSearch = async () => {
+    console.log(this.search);
+    this.usersToShow = await this.userService.all(this.search, String(this.usersOffset), String(this.usersLimit));
+    console.log(this.usersToShow);
+  }
+
+  stopSearchingIfEmptyField = async () => {
+    if (this.search === '') {
+      this.isSearching = false;
+      await this.getUsersToShow();
+    }
+  }
+
+  getAll = async () => this.allUsers = await this.userService.all();
+
+  getUsersToShow = async () => this.usersToShow = await this.userService.all('', String(this.usersOffset), String(this.usersLimit));
 
   async dismiss() {
     await this.modalController.dismiss({
@@ -44,5 +88,6 @@ export class UsersListComponent implements OnInit {
   async ngOnInit() {
     await this.getAll();
     await this.getAllFollowed();
+    await this.getUsersToShow();
   }
 }
