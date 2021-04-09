@@ -16,7 +16,7 @@
   <ion-content *ngIf='this.usersToShow; else elseBlock'>
     <ion-list>
       <ion-item-sliding *ngFor='let user of this.usersToShow'>
-        <ion-item>
+        <ion-item *ngIf="user._id !== userId">
           <ion-avatar slot="start">
             <img *ngIf="user._sex === 'F'; else elseMale" src="../../../../assets/beautiful.jpg" alt="user-icon">
             <ng-template #elseMale>

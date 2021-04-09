@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {goToProfileIfJustLogged, presentToast} from '../commons/utils';
+import {presentToast} from '../commons/utils';
+import {UsersService} from '../services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,10 @@ export class LoginPage implements OnInit {
     public authService: AuthService,
     public formBuilder: FormBuilder,
     public router: Router,
+    private userService: UsersService
   ) { }
 
-  group?: FormGroup;
+  group: FormGroup;
   isLogin = false;
   submitLogin: boolean;
 
@@ -38,7 +40,7 @@ export class LoginPage implements OnInit {
       : '';
   }
 
-  goToUser = () => this.router.navigateByUrl(`tabs/tab1`);
+  goToUser = async () => this.router.navigateByUrl(`tabs/tab1`);
 
   loginUser = async () => {
     this.isLogin = true;
@@ -54,16 +56,16 @@ export class LoginPage implements OnInit {
     localStorage.setItem('refresh_token', user.refresh_token);
     localStorage.setItem('access_token', user.access_token);
     localStorage.setItem('user_id', user.id);
+    this.userService.userID = user.id;
+    console.log(this.userService.userID);
     await this.goToUser();
   }
 
-  async ngOnInit() {
-    await goToProfileIfJustLogged(this.authService, this.router);
+  ngOnInit() {
     this.submitLogin = false;
     this.group = this.formBuilder.group({
       mail: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
-
 }

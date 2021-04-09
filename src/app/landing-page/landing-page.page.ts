@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {goToProfileIfJustLogged} from '../commons/utils';
-import {AuthService} from '../services/auth.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-landing-page',
@@ -10,11 +7,7 @@ import {Router} from '@angular/router';
 })
 export class LandingPagePage implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+  constructor() {}
 
-  async ngOnInit() {
-    await goToProfileIfJustLogged(this.authService, this.router);
-  }
-
+  ngOnInit() {}
 }

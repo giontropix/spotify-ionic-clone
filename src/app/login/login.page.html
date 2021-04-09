@@ -12,9 +12,9 @@
     <ion-item lines="full">
         <ion-label position="floating"><h1>Email</h1></ion-label>
         <ion-label color="danger"
-                   *ngIf="group.controls.mail.invalid && submitLogin">{{getMailErrorMessage()}}</ion-label>
+                   *ngIf="group && group.controls.mail.invalid && submitLogin">{{getMailErrorMessage()}}</ion-label>
         <ion-input type="email" formControlName="mail" required></ion-input>
- 
+
     </ion-item>
 
     <ion-item lines="full">

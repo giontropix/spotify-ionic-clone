@@ -14,8 +14,11 @@ import {Follower} from 'src/app/models/Follower';
 export class UsersListComponent implements OnInit {
   User: any;
 
-  constructor(private userService: UsersService, public modalController: ModalController, private socialService: SocialService) {
-  }
+  constructor(
+    private userService: UsersService,
+    public modalController: ModalController,
+    private socialService: SocialService)
+  {}
 
   allUsers: User[] = [];
   usersToShow: User[] = [];
@@ -24,6 +27,7 @@ export class UsersListComponent implements OnInit {
   usersLimit = 15;
   isSearching = false;
   search = '';
+  userId = USER_ID;
 
   infiniteScrollUsers = (event) => {
     if (!this.isSearching) {
@@ -60,7 +64,9 @@ export class UsersListComponent implements OnInit {
 
   getAll = async () => this.allUsers = await this.userService.all();
 
-  getUsersToShow = async () => this.usersToShow = await this.userService.all('', String(this.usersOffset), String(this.usersLimit));
+  getUsersToShow = async () => {
+    this.usersToShow = await this.userService.all('', String(this.usersOffset), String(this.usersLimit));
+  }
 
   async dismiss() {
     await this.modalController.dismiss({
