@@ -2,7 +2,7 @@ import {AlertController, ModalController} from '@ionic/angular';
 import {SocialService} from '../../../services/social.service';
 import {Component, OnInit} from '@angular/core';
 import {Follower} from 'src/app/models/Follower';
-import {presentToast, USER_ID} from '../../../commons/utils';
+import {getItem, presentToast} from '../../../commons/utils';
 
 @Component({
   selector: 'app-followed',
@@ -21,7 +21,8 @@ export class FollowedComponent implements OnInit {
   followedToShow: Follower[] = [];
   allFollowed: Follower[] = [];
   followedOffset = 0;
-  followedLimit = 15;
+  followedLimit = 5;
+  followedLimitInfinite: number;
   isSearching = false;
   search = '';
 
@@ -29,9 +30,10 @@ export class FollowedComponent implements OnInit {
     if (!this.isSearching) {
       return setTimeout(async () => {
         event.target.complete();
-        const songsToPush = await this.socialService.allFollowed(USER_ID, '', String(this.followedToShow.length),
+        const songsToPush = await this.socialService.allFollowed(await getItem('user_id'), '', String(this.followedToShow.length),
           String(this.followedLimit));
         this.followedToShow = [...this.followedToShow, ...songsToPush];
+        this.followedLimitInfinite = this.followedToShow.length;
         if (this.followedToShow.length === this.allFollowed.length) {
           event.target.disabled = true;
         }
@@ -39,9 +41,10 @@ export class FollowedComponent implements OnInit {
     } else {
       this.getSearch().then(() => setTimeout(async () => {
         event.target.complete();
-        const songsToPush = await this.socialService.allFollowed(USER_ID, this.search, String(this.followedToShow.length),
+        const songsToPush = await this.socialService.allFollowed(await getItem('user_id'), this.search, String(this.followedToShow.length),
           String(this.followedLimit));
         this.followedToShow = [...this.followedToShow, ...songsToPush];
+        this.followedLimitInfinite = this.followedToShow.length;
         if (this.followedToShow.length === this.allFollowed.length) {
           event.target.disabled = true;
         }
@@ -49,12 +52,18 @@ export class FollowedComponent implements OnInit {
     }
   }
 
-  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(USER_ID);
+  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(await getItem('user_id'));
 
-  getFollowedToShow = async () => this.followedToShow =
-    await this.socialService.allFollowed(USER_ID, '', String(this.followedOffset), String(this.followedLimit))
+  getFollowedToShow = async (limit?: number) => {
+    if (!limit) {
+      this.followedToShow =
+        await this.socialService.allFollowed(await getItem('user_id'), '', String(this.followedOffset), String(this.followedLimit));
+    } else { this.followedToShow =
+      await this.socialService.allFollowed(await getItem('user_id'), '', String(this.followedOffset), String(limit)); }
+  }
 
-  getSearch = async () => this.followedToShow = await this.socialService.allFollowed(USER_ID, this.search, String(this.followedOffset),
+  getSearch = async () => this.followedToShow =
+    await this.socialService.allFollowed(await getItem('user_id'), this.search, String(this.followedOffset),
     String(this.followedLimit))
 
   stopSearchingIfEmptyField = async () => {
@@ -66,9 +75,9 @@ export class FollowedComponent implements OnInit {
   }
 
   removeFollowed = async (friendToUnfollowId: string, friendToUnfollowName: string) => {
-    await this.socialService.remove(USER_ID, friendToUnfollowId);
+    await this.socialService.remove(await getItem('user_id'), friendToUnfollowId);
     await presentToast(`${friendToUnfollowName} removed from followed list!`);
-    await this.getAllFollowed();
+    await this.getFollowedToShow(this.followedLimitInfinite);
   }
 
   async confirmRemoveFollowed(friendToUnfollowId: string, friendToUnfollowName: string) {

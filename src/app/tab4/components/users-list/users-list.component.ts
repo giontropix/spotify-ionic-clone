@@ -1,4 +1,4 @@
-import {presentToast, USER_ID} from '../../../commons/utils';
+import {getItem, presentToast} from '../../../commons/utils';
 import {SocialService} from '../../../services/social.service';
 import {User} from 'src/app/models/User';
 import {Component, OnInit} from '@angular/core';
@@ -27,7 +27,9 @@ export class UsersListComponent implements OnInit {
   usersLimit = 15;
   isSearching = false;
   search = '';
-  userId = USER_ID;
+  userId: string;
+
+  syncUserIdWithTemplate = async () => this.userId = await getItem('user_id');
 
   infiniteScrollUsers = (event) => {
     if (!this.isSearching) {
@@ -62,7 +64,7 @@ export class UsersListComponent implements OnInit {
     }
   }
 
-  getAll = async () => this.allUsers = await this.userService.all();
+  getAllUsers = async () => this.allUsers = await this.userService.all();
 
   getUsersToShow = async () => {
     this.usersToShow = await this.userService.all('', String(this.usersOffset), String(this.usersLimit));
@@ -74,22 +76,25 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(USER_ID);
+  getAllFollowed = async () => this.allFollowed = await this.socialService.allFollowed(await getItem('user_id'));
 
   removeJustFollowed = (id: string) => this.allFollowed.find(({_id}: Follower) => _id === id);
 
   addFriend = async (userIdToFollow: string, userNameToFollow: string) => {
     try {
-      await this.socialService.add(USER_ID, {userIdToFollow});
+      await this.socialService.add(await getItem('user_id'), {userIdToFollow});
     } catch (error: any) {
       return presentToast(error);
     }
     await presentToast(`${userNameToFollow} added!`);
+    await this.getUsersToShow();
+    await this.getAllFollowed();
   }
 
   async ngOnInit() {
-    await this.getAll();
+    await this.getAllUsers();
     await this.getAllFollowed();
     await this.getUsersToShow();
+    await this.syncUserIdWithTemplate();
   }
 }

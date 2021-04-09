@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {getItem} from '../commons/utils';
 
 @Component({
   selector: 'app-landing-page',
@@ -8,6 +9,9 @@ import {Component, OnInit} from '@angular/core';
 export class LandingPagePage implements OnInit {
 
   constructor() {}
+  id: string;
 
-  ngOnInit() {}
+  async ngOnInit() {
+    this.id = await getItem('user_id');
+  }
 }

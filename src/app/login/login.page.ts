@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../services/auth.service';
-import {presentToast} from '../commons/utils';
-import {UsersService} from '../services/users.service';
+import {presentToast, setItem} from '../commons/utils';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +14,7 @@ export class LoginPage implements OnInit {
   constructor(
     public authService: AuthService,
     public formBuilder: FormBuilder,
-    public router: Router,
-    private userService: UsersService
+    public router: Router
   ) { }
 
   group: FormGroup;
@@ -53,11 +51,9 @@ export class LoginPage implements OnInit {
     } catch (error: any) {
       return await presentToast(error);
     }
-    localStorage.setItem('refresh_token', user.refresh_token);
-    localStorage.setItem('access_token', user.access_token);
-    localStorage.setItem('user_id', user.id);
-    this.userService.userID = user.id;
-    console.log(this.userService.userID);
+    await setItem('refresh_token', user.refresh_token);
+    await setItem('access_token', user.access_token);
+    await setItem('user_id', user.id);
     await this.goToUser();
   }
 

@@ -3,7 +3,7 @@ import {PlaylistsService} from '../../../services/playlists.service';
 import {UserPlaylist} from '../../../models/UserPlaylist';
 import {AlertController, ModalController} from '@ionic/angular';
 import {ModalPlaylistComponent} from '../modal-playlist/modal-playlist.component';
-import {presentToast, USER_ID} from '../../../commons/utils';
+import {getItem, presentToast} from '../../../commons/utils';
 
 @Component({
   selector: 'app-playlists',
@@ -23,6 +23,7 @@ export class PlaylistsComponent implements OnInit, OnChanges {
   userPlaylistToShow: UserPlaylist[];
   newPlaylistName = '';
   playlistsLimit = 9;
+  playlistsLimitInfinite: number;
   playlistsOffset = 0;
   @Input() reloadPlaylist;
   @Input() reloadPlaylistBecauseDelete;
@@ -31,8 +32,10 @@ export class PlaylistsComponent implements OnInit, OnChanges {
   infiniteScrollPlaylists = (event) => {
     return setTimeout(async () => {
       event.target.complete();
-      const playlistToPush = await this.playlistsService.all(USER_ID, String(this.userPlaylistToShow.length), String(this.playlistsLimit));
+      const playlistToPush =
+        await this.playlistsService.all(await getItem('user_id'), String(this.userPlaylistToShow.length), String(this.playlistsLimit));
       this.userPlaylistToShow = [...this.userPlaylistToShow, ...playlistToPush];
+      this.playlistsLimitInfinite = this.userPlaylistToShow.length;
       if (this.userPlaylistToShow.length === this.allUserPlaylists.length) {
         event.target.disabled = true;
       }
@@ -44,7 +47,7 @@ export class PlaylistsComponent implements OnInit, OnChanges {
       component: ModalPlaylistComponent,
       cssClass: 'my-custom-class',
       componentProps: {
-        userId: USER_ID,
+        userId: await getItem('user_id'),
         playlistId,
         playlistTitle
       }
@@ -73,25 +76,30 @@ export class PlaylistsComponent implements OnInit, OnChanges {
     await alert.present();
   }
 
-  getAllUserPlaylists = async () => this.allUserPlaylists = await this.playlistsService.all(USER_ID);
+  getAllUserPlaylists = async () => this.allUserPlaylists = await this.playlistsService.all(await getItem('user_id'));
 
-  getUserPlaylistsToShow = async () =>
-    this.userPlaylistToShow = await this.playlistsService.all(USER_ID, String(this.playlistsOffset), String(this.playlistsLimit))
+  getUserPlaylistsToShow = async (limit?: number) => {
+    if (!limit) {
+      this.userPlaylistToShow =
+        await this.playlistsService.all(await getItem('user_id'), String(this.playlistsOffset), String(this.playlistsLimit));
+    } else { this.userPlaylistToShow =
+      await this.playlistsService.all(await getItem('user_id'), String(this.playlistsOffset), String(limit)); }
+  }
 
   addPlaylist = async () => {
     if (this.newPlaylistName === '') {
       return presentToast('Compile input field first');
     }
-    await this.playlistsService.create(USER_ID, {name: this.newPlaylistName});
+    await this.playlistsService.create(await getItem('user_id'), {name: this.newPlaylistName});
     await presentToast('Playlist added!');
     this.newPlaylistName = '';
     await this.getUserPlaylistsToShow();
   }
 
   removePlaylist = async (playlistId: string) => {
-    await this.playlistsService.delete(USER_ID, playlistId);
+    await this.playlistsService.delete(await getItem('user_id'), playlistId);
     await presentToast('Playlist removed', 3000);
-    await this.getUserPlaylistsToShow();
+    await this.getUserPlaylistsToShow(this.playlistsLimitInfinite);
   }
 
   async ngOnInit() {
